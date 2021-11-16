@@ -51,7 +51,10 @@ class Course:
         pass
 
     def setCredits(self, credits, prevCred):
-        self.credits = int(float(credits.replace("Credits", "").replace(" ", "")))
+        try:
+            self.credits = int(float(credits.replace("Credits", "").replace(" ", "")))
+        except ValueError:
+            self.credits = "VAR"
         if self.credits == 0:
             self.credits = prevCred
 
@@ -61,7 +64,7 @@ class Course:
         self.name = splits[0]
         self.crn = int(splits[1])
         self.department = splits[2].split(" ")[0]
-        self.code = int(splits[2].split(" ")[1])
+        self.code = splits[2].split(" ")[1]
         self.section = splits[3]
 
     def validate(self):
@@ -81,7 +84,10 @@ def parse(html):
 
     for i in range(0, len(coursesTable), 4):
         course = Course()
-        course.setCourseName(coursesTable[i].find("th").find("a").text)
+        try:
+            course.setCourseName(coursesTable[i].find("th").find("a").text)
+        except:
+            continue
     
         if CREDIT_PARSER_MODE == 1:
             brSplits = coursesTable[i + 1].find("br")
@@ -95,6 +101,10 @@ def parse(html):
                     break
     
         tableEntries = coursesTable[i + 3].find_all("td")
+
+        if len(tableEntries) < 7:
+            continue
+
         course.time = tableEntries[1].text
         course.days = tableEntries[2].text
         course.location = tableEntries[3].text
@@ -106,7 +116,7 @@ def parse(html):
     return courses
 
 
-html = BeautifulSoup(readFile("Class Schedule Listing.html"), features="html.parser")
+html = BeautifulSoup(readFile("CS_complete.html"), features="html.parser")
 courses = parse(html)
 courses = pd.DataFrame.from_records(courses)
 courses.to_csv("courses.csv")
