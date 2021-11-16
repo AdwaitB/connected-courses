@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+    neo4j:
+      image: neo4j/neo4j-arm64-experimental:4.2.5-arm64
+      restart: unless-stopped
+      ports:
+        - 7474:7474
+        - 7687:7687
+      environment:
+        - NEO4J_AUTH=none 
+      volumes:
+        - ../tmp/neo4j/conf:/conf
+        - ../tmp/neo4j/data:/data
+        - ../tmp/neo4j/import:/import
+        - ../tmp/neo4j/logs:/logs
+        - ../tmp/neo4j/plugins:/plugins
+
+    myapp:
+        build: .
+        ports:
+            - 5005:5005
+        depends_on: 
+            - neo4j
