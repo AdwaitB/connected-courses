@@ -1,6 +1,10 @@
+from typing import List, Dict, Any
+
 import pandas as pd
-from html.parser import HTMLParser
 from bs4 import BeautifulSoup
+
+# 1 is HTML, 2 is STRING
+CREDIT_PARSER_MODE = 2
 
 
 def readFile(filepath):
@@ -16,7 +20,13 @@ def doNext(splits, count):
 
 
 class Course:
-    courseName = ""
+    courseNameEntry = ""
+    name = ""
+    crn = 0
+    department = ""
+    code = ""
+    section = ""
+
     credits = ""
     time = ""
     days = ""
@@ -25,7 +35,11 @@ class Course:
 
     def to_dict(self):
         return{
-            "Course Name": self.courseName,
+            "Course Name": self.name,
+            "CRM": self.crn,
+            "Department": self.department,
+            "Course Code": self.code,
+            "Section": self.section,
             "Credits": self.credits,
             "Time": self.time,
             "Days": self.days,
@@ -33,33 +47,66 @@ class Course:
             "Instructor": self.instructor
         }
 
+    def parse(self):
+        pass
+
+    def setCredits(self, credits, prevCred):
+        self.credits = int(float(credits.replace("Credits", "").replace(" ", "")))
+        if self.credits == 0:
+            self.credits = prevCred
+
+    def setCourseName(self, courseName):
+        self.courseNameEntry = courseName
+        splits = courseName.split(" - ")
+        self.name = splits[0]
+        self.crn = int(splits[1])
+        self.department = splits[2].split(" ")[0]
+        self.code = int(splits[2].split(" ")[1])
+        self.section = splits[3]
 
     def validate(self):
         return True
 
 
-rawData = readFile("Class Schedule Listing.html")
-parsedData = BeautifulSoup(rawData, features="html.parser")
-parsedData.find("div", "pagebodydiv").find("table", "datadisplaytable")
-coursesTable = parsedData.find("div", "pagebodydiv").find("table", "datadisplaytable").find_all('tr')
+def readHTML(filename):
+    return BeautifulSoup(readFile(filename), features="html.parser")
 
-courses = []
 
-for i in range(0, len(coursesTable), 4):
-    course = Course()
-    course.courseName = coursesTable[i].find("th").find("a").text
+def parse(html):
+    coursesTable = html.find("div", "pagebodydiv").find("table", "datadisplaytable").find_all('tr')
 
-    brSplits = coursesTable[i+1].find("br")
-    course.credits = doNext(brSplits, 27)
+    courses = []
 
-    tableEntries = coursesTable[i+3].find_all("td")
-    course.time = tableEntries[1].text
-    course.days = tableEntries[2].text
-    course.location = tableEntries[3].text
-    course.instructor = tableEntries[6].text
+    prevCred = -1
 
-    if course.validate():
-        courses.append(course.to_dict())
+    for i in range(0, len(coursesTable), 4):
+        course = Course()
+        course.setCourseName(coursesTable[i].find("th").find("a").text)
+    
+        if CREDIT_PARSER_MODE == 1:
+            brSplits = coursesTable[i + 1].find("br")
+            course.setCredits(entry, prevCred)
+        elif CREDIT_PARSER_MODE == 2:
+            nlSplits = coursesTable[i + 1].text.split("\n\n")
+            for entry in nlSplits:
+                if entry.find("Credits") != -1:
+                    course.setCredits(entry, prevCred)
+                    prevCred = course.credits
+                    break
+    
+        tableEntries = coursesTable[i + 3].find_all("td")
+        course.time = tableEntries[1].text
+        course.days = tableEntries[2].text
+        course.location = tableEntries[3].text
+        course.instructor = tableEntries[6].text
 
+        if course.validate():
+            courses.append(course.to_dict())
+
+    return courses
+
+
+html = BeautifulSoup(readFile("Class Schedule Listing.html"), features="html.parser")
+courses = parse(html)
 courses = pd.DataFrame.from_records(courses)
 courses.to_csv("courses.csv")
