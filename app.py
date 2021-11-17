@@ -34,16 +34,6 @@ def serialize_course(course):
 def hello_world():
     return app.send_static_file('landing.html')
 
-counter = 0
-
-@app.route("/click")
-def click():
-
-    global counter
-    counter += 1
-    return Response(dumps({"clicknumber": counter}),
-                    mimetype="application/json")
-
 # Write a handler for a form posted on /search
 @app.route("/search/<coursename>")
 def search(coursename):
@@ -56,6 +46,7 @@ def search(coursename):
 def post_to_neo4j(records):
     # connect to the graph
     graph = Graph("http://localhost:7474")
+    print("Deleting pre-existing records... ")
     graph.delete_all()
     # create nodes
     nodes = []
@@ -74,10 +65,12 @@ def post_to_neo4j(records):
     graph.commit(tx)
 
 def main():
-    # Sleep for 10 seconds
-    time.sleep(10)
+    print("Reading from csv file...")
     records = read_csv()
+    print("Posting to neo4j...")
     post_to_neo4j(records[1:])
+    print("Posted to neo4j")
+    print("Starting server...")
     app.run(host="localhost", port=5005, debug=True)
 
 if __name__ == "__main__":
