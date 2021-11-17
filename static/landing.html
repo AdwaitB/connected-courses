@@ -39,22 +39,15 @@
                 $.get("/search/" + coursename, function(data, status){
                     // Set the text of the div to the response
                     var out = '';
-                    for (var i in data) {
-                        out += i + ": " + data[i] + "\n";
+                    for (var key in data) {
+                        out += key + ": " + data[key] + "\n";
                     }
                     $("#results").text(out);
                 });
             });
 
-            // print all keys and values of a JSON object
-            function printObject(obj) {
-                var out = '';
-                for (var i in obj) {
-                    out += i + ": " + obj[i] + "\n";
-                }
-                alert(out);
-            }
-
+            
+            
         </script>
     </body>
 </html>
