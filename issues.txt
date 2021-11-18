@@ -1,0 +1,7 @@
+Corner cutting / Issues in code. Not all of these will be resolved. Can't spend too long
+on resolving everything.
+
+1. Certain courses have both an undergrad and a grad listing in the csv.
+2. Special Topics are being ignored
+3. We have truncated the location by removing the last word, typically classroom number.
+4. Tags for courses

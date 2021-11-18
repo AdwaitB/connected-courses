@@ -4,8 +4,44 @@ import time
 
 from py2neo import Graph, Node, Relationship
 
-
 app = Flask(__name__, static_url_path='/static/')
+
+def convert_to_24_format(time):
+    # 12:30 PM -> 1230
+
+    isPM = 'pm' in time
+
+    a = time.split(':')[0] # 12
+    b = time.split(':')[1][:2] # 30
+
+    if isPM:
+        if a == '12':
+            return int(a + b)
+        else:
+            return int(str(int(a) + 12) + b)
+    else:
+        if a == '12':
+            return int('00' + b)
+        else:
+            return int(a + b)
+
+
+
+
+def overlap(time1, time2):
+    # Check if two time ranges overlap
+    start1 = convert_to_24_format(time1.split('-')[0])
+    end1 = convert_to_24_format(time1.split('-')[1])
+    start2 = convert_to_24_format(time2.split('-')[0])
+    end2 = convert_to_24_format(time2.split('-')[1])
+
+    print(time1 + " " + time2)
+    print(str(start1) + " " + str(end1) + " " + str(start2) + " " + str(end2))
+
+    if start1 <= end2 and end1 >= start2:
+        return True
+    else:
+        return False
 
 def read_csv():
     # read line by line records from a csv file courses.csv
@@ -14,10 +50,12 @@ def read_csv():
     with open('courses.csv', 'r') as f:
         for line in f:
             record = line.strip().split(',')
-            if record[5] != 'A' or record[7] == 'TBA' or record[1] == 'Special Problems':
+            if (record[5] != 'A' and record[5] != 'B') or record[7] == 'TBA' or record[1] == 'Special Problems':
                 continue
+            # Remove last word in location string
+            record[9] = record[9]
+            record[9] = record[9].rsplit(' ', 1)[0]
             records.append(record)
-            print(record[1])
     return records
 
 def serialize_course(course):
@@ -53,31 +91,61 @@ def post_to_neo4j(records):
     print("Deleting pre-existing records... ")
     graph.delete_all()
     # create nodes
-    nodes = []
+    courseNodes = []
+    instructorNodes = []
     relationships = []
-    for record in records:
-        # create a node for each record
-        course = Node("Course", name=record[1], CRM=record[2],
-                      department=record[3], coursecode=record[4],
-                      section=record[5], credits=record[6],
-                      time=record[7], days=record[8],
-                      location=record[9], instructor=record[10])
-        nodes.append(course)
+    instructors = {}
+    courses = {}
+    locations = {}
+    locationNodes = []
+    days = {}
+    dayNodes = []
 
-    for i in range(len(records)):
-        # create relationships
-        for j in range(len(records)):
+    for record in records:
+        coursename = record[1]
+        if coursename not in courses:
+            courses[coursename] = Node("Course", name=record[1], CRM=record[2],
+                                       department=record[3], coursecode=record[4],
+                                       section=record[5], credits=record[6],
+                                       time=record[7], days=record[8],
+                                       location=record[9], instructor=record[10])
+            courseNodes.append(courses[coursename])
+        else:
+            continue
+        if courses[coursename]['instructor'] not in instructors:
+            instructors[courses[coursename]['instructor']] = Node("Instructor", name=courses[coursename]['instructor'])
+            instructorNodes.append(instructors[courses[coursename]['instructor']])
+        if courses[coursename]['location'] not in locations:
+            locations[courses[coursename]['location']] = Node("Location", name=courses[coursename]['location'])
+            locationNodes.append(locations[courses[coursename]['location']])
+        for dayofweek in courses[coursename]['days']:
+            if dayofweek not in days:
+                days[dayofweek] = Node("Day", name=dayofweek)
+                dayNodes.append(days[dayofweek])
+    
+    for i in range(len(courseNodes)):
+        for j in range(i+1, len(courseNodes)):
             if i == j:
                 continue
-            if records[i][7] != records[j][7]:
-                relationship = Relationship(nodes[i], "CAN_BE_TAKEN_WTIH", nodes[j])
-                relationships.append(relationship)
-
-    print(len(relationships))
+            if not overlap(courseNodes[i]['time'], courseNodes[j]['time']):
+                relationships.append(Relationship(courseNodes[i], "CAN_BE_TAKEN_WITH", courseNodes[j]))
+    
+    for coursename, courseNode in courses.items():
+        relationships.append(Relationship(instructors[courseNode['instructor']], "TEACHES", courses[coursename]))
+        relationships.append(Relationship(courses[coursename], "TAUGHT_AT", locations[courseNode['location']]))
+        for dayofweek in courseNode['days']:
+            relationships.append(Relationship(courses[coursename], "TAUGHT_ON", days[dayofweek]))
 
     tx = graph.begin()
-    for node in nodes:
-        tx.create(node)
+    for coursenode in courseNodes:
+        tx.create(coursenode)
+    for instructor in instructorNodes:
+        tx.create(instructor)
+    for location in locationNodes:
+        tx.create(location)
+    for day in dayNodes:
+        tx.create(day)
+
     for relationship in relationships:
         tx.create(relationship)
     graph.commit(tx)
