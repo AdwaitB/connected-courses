@@ -1,0 +1,70 @@
+Artificial Intelligence,Computer Vision,Machine Learning,NLP,Information Retrieval,Architecture,Networks,Security,Databases,HPC,Mobile Computing,Operating Systems,Programming Languages,Software Engineering,Algorithms,Cryptography,Graphics,HCI,Robotics,Other
+Intro to Computing:Programming Languages
+Intro Media Computation:Other
+Intro-Object Orient Prog:Programming Languages,Software Engineering
+Data Struct & Algorithms:Algorithms,Programming Languages
+Computing for Engineers:Other
+Intro Discrete Math CS:Algorithms
+Honors Discrete Math CS:Algorithms
+Computer Organiz&Program:Architecture
+Systems and Networks:Operating Systems,Networks
+Media Device Architectur:Architecture
+Data Input/Manipulation:Machine Learning
+Objects and Design:Programming Languages,Software Engineering
+Computing & Society:Other
+Design-Operating Systems:Operating Systems
+Processor Design:Architecture
+Computer Networking I:Networks
+Computer Graphics:Graphics
+Dsgn&Analysis-Algorithms:Algorithms
+Intro-Artificial Intell:Artificial Intelligence
+Intro-Perception&Robotic:Robotics
+Prototyping Intelligent Device:Artificial Intelligence
+Intro-Cognitive Science:Other
+Robots and Society:Robotics
+Intro to Computer Law:Other
+Adv Operating Systems:Operating Systems
+Intro to Info Security:Security,Networks
+Compilers & Interpreters:Programming Languages,Software Engineering
+Mobile Apps & Svcs:Mobile Computing
+Advanced Computer Org:Architecture
+Intro Enterprise Comp:Software Engineering
+Intr to Database Systems:Databases
+Video Game Design:HCI
+Design of Online Comm:Networks 
+Intro to Computer Vision:Computer Vision
+Comp Aesthetics:HCI,Graphics
+Automata and Complexity:Algorithms
+Advanced Algs:Algorithms
+Computer Audio:Other
+Mobile&Ubiquitous Comp:Mobile Computing
+Machine Learning:Machine Learning
+Deep Learning:Machine Learning
+Robot Intelli Planning:Robotics,Artificial Intelligence
+Natural Language:NLP
+Educational Technology:HCI
+Internet Sys & Services:Networks
+Info Security Policies:Security
+Intro To Info Security:Security,Networks
+Secure Computer Systems:Security,Operating Systems
+Compiler Design:Programming Languages
+Applied Cryptography:Security,Programming Languages
+High Perform Comput Arch:Architecture
+Programming Languages:Programming Languages,Software Engineering
+Intro Health Informatics:Other
+Educ Tech-Foundations:Other
+Online Communities:Other
+Comp Social Science:Other
+Social Computing:Other
+Computer Vision:Computer Vision
+Intro to Grad Algorithms:Algorithms
+Design& Analy-Algorithms:Algorithms
+Advance Internet Comput:Networks
+Cyber Sec Practicum:Security,Networks
+Human-Computer Interact:HCI
+Issues/Human-Center Comp:HCI
+Ubiquitous Computing:HCI
+Behavioral Imaging:Other
+AI Storytell In Vir Wrld:Artificial Intelligence
+Robotics Research Fnd I:Robotics
+Robotics Research Fnd II:Robotics

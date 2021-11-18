@@ -35,9 +35,6 @@ def overlap(time1, time2):
     start2 = convert_to_24_format(time2.split('-')[0])
     end2 = convert_to_24_format(time2.split('-')[1])
 
-    print(time1 + " " + time2)
-    print(str(start1) + " " + str(end1) + " " + str(start2) + " " + str(end2))
-
     if start1 <= end2 and end1 >= start2:
         return True
     else:
@@ -85,6 +82,26 @@ def search(coursename):
     return Response(dumps(serialize_course(coursenode)),
                     mimetype="application/json")
 
+# Write a function to read tags from a file where the line is of the form field: tag1, tag2, tag3
+# Return a list of fields and tags
+def read_tags(filename):
+    fields = []
+    course_to_fields = {}
+    lineNumber = 0
+    with open(filename, 'r') as f:
+        for line in f:
+            if lineNumber == 0:
+                for field in line.strip().split(','):
+                    fields.append(field)
+                lineNumber += 1
+                continue
+            course = line.strip().split(':')[0]
+            related_fields = line.strip().split(':')[1].split(',')
+            course_to_fields[course] = related_fields
+    print(fields)
+    print(course_to_fields)
+    return fields, course_to_fields
+
 def post_to_neo4j(records):
     # connect to the graph
     graph = Graph("http://localhost:7474")
@@ -100,6 +117,10 @@ def post_to_neo4j(records):
     locationNodes = []
     days = {}
     dayNodes = []
+    fields = {}
+    fieldNodes = []
+
+    _, course_to_fields = read_tags('tags.txt')
 
     for record in records:
         coursename = record[1]
@@ -122,6 +143,14 @@ def post_to_neo4j(records):
             if dayofweek not in days:
                 days[dayofweek] = Node("Day", name=dayofweek)
                 dayNodes.append(days[dayofweek])
+        for field in course_to_fields[coursename]:
+            if len(field) == 0:
+                continue
+            if field not in fields:
+                fields[field] = Node("Field", name=field)
+                fieldNodes.append(fields[field])
+        
+        print(courses[coursename]['name'])
     
     for i in range(len(courseNodes)):
         for j in range(i+1, len(courseNodes)):
@@ -135,6 +164,11 @@ def post_to_neo4j(records):
         relationships.append(Relationship(courses[coursename], "TAUGHT_AT", locations[courseNode['location']]))
         for dayofweek in courseNode['days']:
             relationships.append(Relationship(courses[coursename], "TAUGHT_ON", days[dayofweek]))
+        for field in course_to_fields[coursename]:
+            if len(field) == 0:
+                continue
+            relationships.append(Relationship(courses[coursename], "IS_RELATED_TO", fields[field]))
+    
 
     tx = graph.begin()
     for coursenode in courseNodes:
@@ -143,6 +177,8 @@ def post_to_neo4j(records):
         tx.create(instructor)
     for location in locationNodes:
         tx.create(location)
+    for field in fieldNodes:
+        tx.create(field)
     for day in dayNodes:
         tx.create(day)
 
