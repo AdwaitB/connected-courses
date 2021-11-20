@@ -4,7 +4,11 @@ import time
 
 from py2neo import Graph, Node, Relationship
 
+from utils.util import Filter, QueryGenerator, Preferences, Result
+
 app = Flask(__name__, static_url_path='/static/')
+
+course_to_fields = {}
 
 def convert_to_24_format(time):
     # 12:30 PM -> 1230
@@ -78,7 +82,42 @@ def hello_world():
 def search(coursename):
     graph = Graph("http://localhost:7474")
     coursenode = graph.nodes.match("Course", name=coursename).first()
-    print(coursenode)
+
+    filter1 = Filter('Machine Learning', [], [], [], [])
+    filter2 = Filter('', ['Gerandy   Brito (P)'], [], [], [])
+    filter3 = Filter('', [], [], [], [])
+    filter4 = Filter('', [], [], ['M', 'W'], ['Scheller College of Business'])
+    filters = [filter1, filter2, filter3, filter4]
+
+    query_generator = QueryGenerator(4, filters)
+    result_set = graph.run(query_generator.generate_query()).data()
+
+    preferences = Preferences([], ['Umakishore   Ramachandran (P)'], ['Security', 'Networks', 'HCI'], ['T'], ['Scheller College of Business', 'Klaus Advanced Computing', 'College of Computing'], course_to_fields)
+    print("Filters are:")
+    for filter in filters:
+        print(filter)
+    print("Preferences are :")
+    print(preferences)
+    result_objects = []
+    for result in result_set:
+        result_object = Result(result)
+        result_objects.append(result_object)
+    
+    for i in range(len(result_objects)):
+        result_objects[i] = preferences.evaluate(result_objects[i])
+
+    result_objects.sort(key=lambda x: x.score, reverse=True)
+
+    print("Ordered Suggestions")
+
+    for result in result_objects:
+        print("________________________________________________________")
+        for course in result.info:
+            print(result.info[course]['name'] + " " + str(result.info[course]['time']))
+        print("Score " + str(result.score))
+        print("Matched preferences" + str(result.matched_preferences))
+        
+
     return Response(dumps(serialize_course(coursenode)),
                     mimetype="application/json")
 
@@ -103,6 +142,7 @@ def read_tags(filename):
     return fields, course_to_fields
 
 def post_to_neo4j(records):
+    global course_to_fields
     # connect to the graph
     graph = Graph("http://localhost:7474")
     print("Deleting pre-existing records... ")
@@ -126,7 +166,7 @@ def post_to_neo4j(records):
         coursename = record[1]
         if coursename not in courses:
             courses[coursename] = Node("Course", name=record[1], CRM=record[2],
-                                       department=record[3], coursecode=record[4],
+                                       department=record[3], coursecode=int(record[4]),
                                        section=record[5], credits=record[6],
                                        time=record[7], days=record[8],
                                        location=record[9], instructor=record[10])
