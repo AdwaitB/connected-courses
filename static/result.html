@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Brand/logo -->
+  <a class="navbar-brand" href="#">
+    <img src="/static/bee.png" alt="logo" style="width:40px;">
+  </a>
+  
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="#">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Some Other Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Yet Another Link</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="jumbotron text-center bg-info text-white" style="margin-bottom:0">
+  <h1>Suggested Courses For You</h1>
+</div>
+
+<div class="mt-2 col-md-12 text-white">d </div>
+
+<div class="container" id="filters_container">
+  <div class="row"><h2>FILTERS</h2></div>
+  <div class="row">
+    <div class="col" style="background-color:lavender;"></div>
+    <div class="col" style="background-color:lavender;"><h4>NAME<h4></div>
+    <div class="col" style="background-color:lavender;"><h4>PROFESSOR</h4></div>
+    <div class="col" style="background-color:lavender;"><h4>FIELD</h4></div>
+    <div class="col" style="background-color:lavender;"><h4>LOCATION</h4></div>
+    <div class="col" style="background-color:lavender;"><h4>DAYS</h4></div>
+  </div>
+
+  <div class="row" id="filters_row">
+    <div class="col" style="background-color:lavender;"><h4>COURSE</h4></div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Adv Operating Systems</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Machine Learning</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;High Performance Parallel Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computer Networks</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Database Systems Design and Implementation</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Ubiquitous Computing</a>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Troy Peace</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Rodrigo Borela Valente</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Melinda Hardy McDaniel</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;David Andrew Joyner</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Richard Landry</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Mark Bomi Moss</a>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computational Perception and Robotics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computer Graphics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computing Systems</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Human Centered Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;High Performance Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Human-Computer Interaction</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Interactive Intelligence</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Machine Learning</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Modeling and Simulations</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Scientific Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Social Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Visual Analytics</a>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Clough UG Learning Commons</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Instructional Center</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;D.M. Smith</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Howey Physics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;College of Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Bunger-Henry</a>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Monday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Tuesday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Wednesday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Thursday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Friday</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="container">
+    <button type="button" class="btn btn-secondary btn-lg m-2" id="filters_add_course">Add Course</button>
+  </div>
+
+<script>
+  $("#filters_add_course").click(function() {
+    var filters_row = document.getElementById("filters_row");
+    var clone = filters_row.cloneNode(true);
+    document.getElementById("filters_container").appendChild(clone);
+  });
+</script>
+
+<!-- This container just adds gap between the Filter and Preferences Fields -->
+<div class="container m-5"></div>
+
+<div class="container" id="prefs_container">
+  <div class="row"><h2>PREFERENCES</h2></div>
+  <div class="row">
+    <div class="col" style="background-color:lavender;"></div>
+    <div class="col" style="background-color:lavender;"><h4>NAME<h4></div>
+    <div class="col" style="background-color:lavender;"><h4>PROFESSOR</h4></div>
+    <div class="col" style="background-color:lavender;"><h4>FIELD</h4></div>
+    <div class="col" style="background-color:lavender;"><h4>LOCATION</h4></div>
+    <div class="col" style="background-color:lavender;"><h4>DAYS</h4></div>
+  </div>
+
+  <div class="row" id="prefs_row">
+    <div class="col" style="background-color:lavender;"><h4>COURSE</h4></div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Adv Operating Systems</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Machine Learning</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;High Performance Parallel Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computer Networks</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Database Systems Design and Implementation</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Ubiquitous Computing</a>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Troy Peace</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Rodrigo Borela Valente</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Melinda Hardy McDaniel</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;David Andrew Joyner</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Richard Landry</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Mark Bomi Moss</a>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computational Perception and Robotics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computer Graphics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computing Systems</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Human Centered Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;High Performance Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Human-Computer Interaction</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Interactive Intelligence</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Machine Learning</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Modeling and Simulations</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Scientific Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Social Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Visual Analytics</a>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Clough UG Learning Commons</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Instructional Center</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;D.M. Smith</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Howey Physics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;College of Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Bunger-Henry</a>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="background-color:lavender;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Monday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Tuesday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Wednesday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Thursday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Friday</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="container">
+    <button type="button" class="btn btn-secondary btn-lg m-2" id="pref_add_course">Add Course</button>
+  </div>
+
+<div class="container">
+  <button type="button" class="btn btn-success btn-lg m-5 btn-block">Filter</button>
+</div>
+
+<script>
+  $("#pref_add_course").click(function() {
+    var prefs_row = document.getElementById("prefs_row");
+    var clone = prefs_row.cloneNode(true);
+    document.getElementById("prefs_container").appendChild(clone);
+  });
+</script>
+
+<style>
+
+  .links line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+  }
+  
+  .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
+  
+</style>
+
+<svg width="1920" height="1080"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+  
+  var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+  var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+  var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(250))
+    .force("charge", d3.forceManyBody().strength(-50))
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+
+  var data = {
+  "nodes": [
+    {"id": "1 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "1 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "1 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "1 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+    {"id": "2 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "2 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "2 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "2 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+    {"id": "3 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "3 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "3 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "3 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+    {"id": "4 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "4 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "4 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "4 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+    {"id": "5 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "5 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "5 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "5 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+    {"id": "6 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "6 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "6 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "6 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+    {"id": "7 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "7 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "7 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "7 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+    {"id": "8 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "8 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "8 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "8 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+    {"id": "9 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "9 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "9 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "9 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+    {"id": "0 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
+    {"id": "0 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
+    {"id": "0 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
+    {"id": "0 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
+  ],
+  "links": [
+    {"source": "1 Adv Operating Systems", "target": "1 Machine Learning", "value": 10},
+    {"source": "1 Machine Learning", "target": "1 Computer Networks", "value": 10},
+    {"source": "1 Computer Networks", "target": "1 High Performance Parallel Computing", "value": 10},
+    {"source": "2 Adv Operating Systems", "target": "2 Machine Learning", "value": 10},
+    {"source": "2 Machine Learning", "target": "2 Computer Networks", "value": 10},
+    {"source": "2 Computer Networks", "target": "2 High Performance Computing", "value": 10},
+    {"source": "3 Adv Operating Systems", "target": "3 Machine Learning", "value": 10},
+    {"source": "3 Machine Learning", "target": "3 Computer Networks", "value": 10},
+    {"source": "3 Computer Networks", "target": "3 High Performance Parallel Computing", "value": 10},
+    {"source": "4 Adv Operating Systems", "target": "4 Machine Learning", "value": 10},
+    {"source": "4 Machine Learning", "target": "4 Computer Networks", "value": 10},
+    {"source": "4 Computer Networks", "target": "4 High Performance Computing", "value": 10},
+    {"source": "5 Adv Operating Systems", "target": "5 Machine Learning", "value": 10},
+    {"source": "5 Machine Learning", "target": "5 Computer Networks", "value": 10},
+    {"source": "5 Computer Networks", "target": "5 High Performance Parallel Computing", "value": 10},
+    {"source": "6 Adv Operating Systems", "target": "6 Machine Learning", "value": 10},
+    {"source": "6 Machine Learning", "target": "6 Computer Networks", "value": 10},
+    {"source": "6 Computer Networks", "target": "6 High Performance Computing", "value": 10},
+    {"source": "7 Adv Operating Systems", "target": "7 Machine Learning", "value": 10},
+    {"source": "7 Machine Learning", "target": "7 Computer Networks", "value": 10},
+    {"source": "7 Computer Networks", "target": "7 High Performance Parallel Computing", "value": 10},
+    {"source": "8 Adv Operating Systems", "target": "8 Machine Learning", "value": 10},
+    {"source": "8 Machine Learning", "target": "8 Computer Networks", "value": 10},
+    {"source": "8 Computer Networks", "target": "8 High Performance Computing", "value": 10},
+    {"source": "9 Adv Operating Systems", "target": "9 Machine Learning", "value": 10},
+    {"source": "9 Machine Learning", "target": "9 Computer Networks", "value": 10},
+    {"source": "9 Computer Networks", "target": "9 High Performance Parallel Computing", "value": 10},
+    {"source": "0 Adv Operating Systems", "target": "0 Machine Learning", "value": 10},
+    {"source": "0 Machine Learning", "target": "0 Computer Networks", "value": 10},
+    {"source": "0 Computer Networks", "target": "0 High Performance Computing", "value": 10},
+  ]
+}
+
+var link = svg.append("g")
+    .attr("class", "links")
+    .selectAll("line")
+    .data(data.links)
+    .enter().append("line")
+      .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+var node = svg.append("g")
+  .attr("class", "nodes")
+  .selectAll("circle")
+  .data(data.nodes)
+  .enter().append("circle")
+    .attr("r", 30)
+    .attr("fill", function(d) { return color(d.group); })
+    .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+
+  node.append("title")
+      .text(function(d) { return d.id; });
+
+  var texts = svg.selectAll("text.label")
+            .data(data.nodes)
+            .enter().append("text")
+            .attr("class", "label")
+            .attr("fill", "black")
+            .text(function(d) {  return d.id;  });
+
+  simulation
+      .nodes(data.nodes)
+      .on("tick", ticked);
+
+  simulation.force("link")
+      .links(data.links);
+
+  function ticked() {
+    link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+    
+    texts.attr("transform", function(d) {
+      return "translate(" + d.x + "," + d.y + ")";
+    });
+  }
+
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+
+</script>
+
+<div class="container">
+  <ul class="pagination justify-content-end">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</div>
+
+</body>
+</html>

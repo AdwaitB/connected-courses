@@ -75,6 +75,11 @@ def serialize_course(course):
 def hello_world():
     return app.send_static_file('landing.html')
 
+# Sample Search results Page
+@app.route("/results")
+def show_results():
+    return app.send_static_file('result.html')
+
 # Write a handler for a get request on /search
 @app.route("/search/<coursename>")
 def search(coursename):
