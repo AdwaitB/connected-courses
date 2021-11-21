@@ -30,8 +30,6 @@ def convert_to_24_format(time):
             return int(a + b)
 
 
-
-
 def overlap(time1, time2):
     # Check if two time ranges overlap
     start1 = convert_to_24_format(time1.split('-')[0])
@@ -84,18 +82,34 @@ def search(coursename):
     coursenode = graph.nodes.match("Course", name=coursename).first()
 
     filter1 = Filter('Machine Learning', [], [], [], [])
-    filter2 = Filter('', ['Gerandy   Brito (P)'], [], [], [])
-    filter3 = Filter('', [], [], [], [])
-    filter4 = Filter('', [], [], ['M', 'W'], ['Scheller College of Business'])
-    filters = [filter1, filter2, filter3, filter4]
+    filter2 = Filter('', [], [], [], [])
+    filter3 = Filter('', [], ['Other', 'HCI'], [], [])
+    filter4 = Filter('', [], [], [], ['Scheller College of Business'])
+    positive_filters = [filter1, filter2, filter3, filter4]
 
-    query_generator = QueryGenerator(4, filters)
+    negfilter1 = Filter('', [], [], [], [])
+    negfilter2 = Filter('', [], [], [], [])
+    negfilter3 = Filter('', [], [], [], [])
+    negfilter4 = Filter('', [], [], [], ['R,J. Erskine Love Manufacturing'])
+    negative_filters = [negfilter1, negfilter2, negfilter3, negfilter4]
+
+    query_generator = QueryGenerator(4, positive_filters, negative_filters)
     result_set = graph.run(query_generator.generate_query()).data()
 
-    preferences = Preferences([], ['Umakishore   Ramachandran (P)'], ['Security', 'Networks', 'HCI'], ['T'], ['Scheller College of Business', 'Klaus Advanced Computing', 'College of Computing'], course_to_fields)
-    print("Filters are:")
-    for filter in filters:
+    preferences = Preferences([], [], \
+    ['Umakishore   Ramachandran (P)', 'Gerandy   Brito (P)'], ['Ada   Gavrilovska (P)'], \
+    ['Security', 'Networks', 'HCI'], ['Computer Vision', 'Machine Learning'], \
+    ['T'], ['R', 'F'], \
+    ['Scheller College of Business', 'Klaus Advanced Computing', 'College of Computing', 'Instructional Center'], ['R,J. Erskine Love Manufacturing'], \
+    course_to_fields)
+
+    print("Positive Filters are:")
+    for filter in positive_filters:
         print(filter)
+    print("Negative Filters are:")
+    for filter in negative_filters:
+        print(filter)
+
     print("Preferences are :")
     print(preferences)
     result_objects = []
@@ -115,7 +129,8 @@ def search(coursename):
         for course in result.info:
             print(result.info[course]['name'] + " " + str(result.info[course]['time']))
         print("Score " + str(result.score))
-        print("Matched preferences" + str(result.matched_preferences))
+        result.matched_preferences.sort()
+        print("Matched preferences " + str(result.matched_preferences))
         
 
     return Response(dumps(serialize_course(coursenode)),
