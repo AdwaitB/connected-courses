@@ -11,13 +11,12 @@
 </head>
 <body>
 
+<!--Navigation Bar. All links are broken currently. Check if links like OSCAR, etc. should be added.-->
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <!-- Brand/logo -->
   <a class="navbar-brand" href="#">
     <img src="/static/bee.png" alt="logo" style="width:40px;">
   </a>
   
-  <!-- Links -->
   <ul class="navbar-nav">
     <li class="nav-item">
       <a class="nav-link" href="#">Home</a>
@@ -31,15 +30,27 @@
   </ul>
 </nav>
 
+<!--Adding a jumbotro bar on top. No functionality, just for aesthetics.-->
 <div class="jumbotron text-center bg-info text-white" style="margin-bottom:0">
   <h1>Suggested Courses For You</h1>
 </div>
 
-<div class="mt-2 col-md-12 text-white">d </div>
+<!--Creates some space between the jumbotron and the filters div.-->
+<div class="container m-5"></div>
 
+<!--Adding functionality to have negative filters and preferences as well.-->
+<script>
+  function ts(cb) {
+    if (cb.readOnly) cb.checked=cb.readOnly=false;
+    else if (!cb.checked) cb.readOnly=cb.indeterminate=true;
+  }
+</script>
+
+<!--Start of the filters container.-->
 <div class="container" id="filters_container">
   <div class="row"><h2>FILTERS</h2></div>
   <div class="row">
+    <!--Headers for the set of filters provided by us.-->
     <div class="col" style="background-color:lavender;"></div>
     <div class="col" style="background-color:lavender;"><h4>NAME<h4></div>
     <div class="col" style="background-color:lavender;"><h4>PROFESSOR</h4></div>
@@ -48,84 +59,92 @@
     <div class="col" style="background-color:lavender;"><h4>DAYS</h4></div>
   </div>
 
+  <!--A single row depicting all the filters set for this particular course.-->
+  <!--This row is replicated to add filters for other courses using the "Add Course" button.-->
   <div class="row" id="filters_row">
-    <div class="col" style="background-color:lavender;"><h4>COURSE</h4></div>
+    <div class="col" style="background-color:lavender;"><h4 id="course_1">COURSE</h4></div>
     <div class="col" style="background-color:lavender;">
+      <!--Course based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Adv Operating Systems</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Machine Learning</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;High Performance Parallel Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computer Networks</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Database Systems Design and Implementation</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Ubiquitous Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Adv Operating Systems</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Machine Learning</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;High Performance Parallel Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computer Networks</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Database Systems Design and Implementation</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Ubiquitous Computing</a>
         </div>
       </div>
     </div>
     <div class="col" style="background-color:lavender;">
+      <!--Professor based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Troy Peace</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Rodrigo Borela Valente</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Melinda Hardy McDaniel</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;David Andrew Joyner</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Richard Landry</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Mark Bomi Moss</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Troy Peace</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Rodrigo Borela Valente</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Melinda Hardy McDaniel</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;David Andrew Joyner</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Richard Landry</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Mark Bomi Moss</a>
         </div>
       </div>
     </div>
     <div class="col" style="background-color:lavender;">
+      <!--Specialization based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computational Perception and Robotics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computer Graphics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computing Systems</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Human Centered Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;High Performance Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Human-Computer Interaction</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Interactive Intelligence</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Machine Learning</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Modeling and Simulations</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Scientific Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Social Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Visual Analytics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computational Perception and Robotics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computer Graphics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computing Systems</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Human Centered Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;High Performance Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Human-Computer Interaction</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Interactive Intelligence</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Machine Learning</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Modeling and Simulations</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Scientific Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Social Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Visual Analytics</a>
         </div>
       </div>
     </div>
     <div class="col" style="background-color:lavender;">
+      <!--Location based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Clough UG Learning Commons</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Instructional Center</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;D.M. Smith</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Howey Physics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;College of Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Bunger-Henry</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Clough UG Learning Commons</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Instructional Center</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;D.M. Smith</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Howey Physics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;College of Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Bunger-Henry</a>
         </div>
       </div>
     </div>
     <div class="col" style="background-color:lavender;">
+      <!--Day of Week based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Monday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Tuesday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Wednesday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Thursday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Friday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Monday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Tuesday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Wednesday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Thursday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Friday</a>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-  <div class="container">
-    <button type="button" class="btn btn-secondary btn-lg m-2" id="filters_add_course">Add Course</button>
-  </div>
+<!--This button helps add more rows to the filters matrix. Calls the fucntion defined below.-->
+<div class="container">
+  <button type="button" class="btn btn-secondary btn-lg m-2" id="filters_add_course">Add Course</button>
+</div>
 
 <script>
   $("#filters_add_course").click(function() {
@@ -135,12 +154,16 @@
   });
 </script>
 
-<!-- This container just adds gap between the Filter and Preferences Fields -->
+<!--This container just adds gap between the Filter and Preferences Fields-->
 <div class="container m-5"></div>
 
+<!--This is the container for our Preferences Matrix.-->
 <div class="container" id="prefs_container">
+  <!--A single row depicting all the preferences set for this particular course.-->
+  <!--This row is replicated to add preferences for other courses using the "Add Course" button.-->
   <div class="row"><h2>PREFERENCES</h2></div>
   <div class="row">
+    <!--Similar to our filters, these are the set of preferences that the user can set.-->
     <div class="col" style="background-color:lavender;"></div>
     <div class="col" style="background-color:lavender;"><h4>NAME<h4></div>
     <div class="col" style="background-color:lavender;"><h4>PROFESSOR</h4></div>
@@ -152,85 +175,86 @@
   <div class="row" id="prefs_row">
     <div class="col" style="background-color:lavender;"><h4>COURSE</h4></div>
     <div class="col" style="background-color:lavender;">
+      <!--Course based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Adv Operating Systems</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Machine Learning</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;High Performance Parallel Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computer Networks</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Database Systems Design and Implementation</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Ubiquitous Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Adv Operating Systems</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Machine Learning</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;High Performance Parallel Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computer Networks</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Database Systems Design and Implementation</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Ubiquitous Computing</a>
         </div>
       </div>
     </div>
     <div class="col" style="background-color:lavender;">
+      <!--Professor based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Troy Peace</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Rodrigo Borela Valente</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Melinda Hardy McDaniel</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;David Andrew Joyner</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Richard Landry</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Mark Bomi Moss</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Troy Peace</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Rodrigo Borela Valente</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Melinda Hardy McDaniel</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;David Andrew Joyner</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Richard Landry</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Mark Bomi Moss</a>
         </div>
       </div>
     </div>
     <div class="col" style="background-color:lavender;">
+      <!--Specialization based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computational Perception and Robotics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computer Graphics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Computing Systems</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Human Centered Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;High Performance Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Human-Computer Interaction</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Interactive Intelligence</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Machine Learning</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Modeling and Simulations</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Scientific Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Social Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Visual Analytics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computational Perception and Robotics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computer Graphics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computing Systems</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Human Centered Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;High Performance Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Human-Computer Interaction</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Interactive Intelligence</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Machine Learning</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Modeling and Simulations</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Scientific Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Social Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Visual Analytics</a>
         </div>
       </div>
     </div>
     <div class="col" style="background-color:lavender;">
+      <!--Location based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Clough UG Learning Commons</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Instructional Center</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;D.M. Smith</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Howey Physics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;College of Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Bunger-Henry</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Clough UG Learning Commons</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Instructional Center</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;D.M. Smith</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Howey Physics</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;College of Computing</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Bunger-Henry</a>
         </div>
       </div>
     </div>
     <div class="col" style="background-color:lavender;">
+      <!--Day of Week based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Monday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Tuesday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Wednesday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Thursday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Friday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Monday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Tuesday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Wednesday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Thursday</a>
+          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Friday</a>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-
-  <div class="container">
-    <button type="button" class="btn btn-secondary btn-lg m-2" id="pref_add_course">Add Course</button>
-  </div>
-
+<!--This button helps add more rows to the preferences matrix. Calls the fucntion defined below.-->
 <div class="container">
-  <button type="button" class="btn btn-success btn-lg m-5 btn-block">Filter</button>
+  <button type="button" class="btn btn-secondary btn-lg m-2" id="pref_add_course">Add Course</button>
 </div>
 
 <script>
@@ -241,8 +265,14 @@
   });
 </script>
 
-<style>
+<!--This is the filter button that users click on once they have set up their filters and preferences.-->
+<!--Once clicked, search results are generated and displayed for the user.-->
+<div class="container">
+  <button type="button" class="btn btn-success btn-lg m-5 btn-block">Filter</button>
+</div>
 
+<!--Styling for our force directed graph generated.-->
+<style>
   .links line {
     stroke: #999;
     stroke-opacity: 0.6;
@@ -252,25 +282,33 @@
     stroke: #fff;
     stroke-width: 1.5px;
   }
-  
 </style>
 
+<!--Setting up the SVG within which our graph will be rendered.-->
 <svg width="1920" height="1080"></svg>
+
+<!--Importing D3 libraries and setting up the Force Directed Graph.-->
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
-  
   var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
+  // Sets the size of the nodes of our graph.
+  var radius = 30;
+
+  // This sets a "group number" based coloring scheme for our nodes.
   var color = d3.scaleOrdinal(d3.schemeCategory20);
 
+  // force("link")  : Determines the length of the link between nodes. Since we're currently pinning nodes to particular coordinated, this is redundant.
+  // force("charge"): Determines the force between individual nodes. Helps prevent nodes from overlapping. Redundant due to above reason.
+  // force("center"): Determines a particular corrdinate towards which all nodes are attracted. This is to prevent nodes from flying off the SVG viewbox.
   var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(250))
-    .force("charge", d3.forceManyBody().strength(-50))
-    .force("center", d3.forceCenter(width / 2, height / 2));
+    .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(250));
+ //   .force("charge", d3.forceManyBody().strength(-50))
+ //   .force("center", d3.forceCenter(width / 2, height / 2));
 
-
+  // Mock data for visualization. Must be replaced with a call to the backed to retrieve actual search results.
   var data = {
   "nodes": [
     {"id": "1 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
@@ -348,28 +386,31 @@
   ]
 }
 
-var link = svg.append("g")
-    .attr("class", "links")
-    .selectAll("line")
-    .data(data.links)
-    .enter().append("line")
-      .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+  // Adding links to group "g".
+  var link = svg.append("g")
+      .attr("class", "links")
+      .selectAll("line")
+      .data(data.links)
+      .enter().append("line")
+        .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
 
-var node = svg.append("g")
-  .attr("class", "nodes")
-  .selectAll("circle")
-  .data(data.nodes)
-  .enter().append("circle")
-    .attr("r", 30)
-    .attr("fill", function(d) { return color(d.group); })
-    .call(d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended));
+  // Adding nodes to the group "g".
+  var node = svg.append("g")
+    .attr("class", "nodes")
+    .selectAll("circle")
+    .data(data.nodes)
+    .enter().append("circle")
+      .attr("r", radius)
+      .attr("fill", function(d) { return color(d.group); })
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
 
   node.append("title")
-      .text(function(d) { return d.id; });
+    .text(function(d) { return d.id; });
 
+  // Adding course names to the nodes.
   var texts = svg.selectAll("text.label")
             .data(data.nodes)
             .enter().append("text")
@@ -377,6 +418,7 @@ var node = svg.append("g")
             .attr("fill", "black")
             .text(function(d) {  return d.id;  });
 
+  // Initializing the simulation nodes and links.
   simulation
       .nodes(data.nodes)
       .on("tick", ticked);
@@ -385,40 +427,55 @@ var node = svg.append("g")
       .links(data.links);
 
   function ticked() {
+    // This is the original code where the nodes are not arranged and keep moving around. Leaving it here for future reference.
+    // link
+    //     .attr("x1", function(d) { return d.source.x; })
+    //     .attr("y1", function(d) { return d.source.y; })
+    //     .attr("x2", function(d) { return d.target.x; })
+    //     .attr("y2", function(d) { return d.target.y; });
+
+    // node
+    //     .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x));})
+    //     .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
+
+    // Pinning the nodes down to their respective locations based on their order in the backend returned search results.
+    node
+        .attr("cx", function(d) { return d.x = ((d.index % 4) * width / 5) + 5 * radius;})
+        .attr("cy", function(d) { return d.y = ((d.index / 4) * (height - 4 * radius) / 10) + 2 * radius; });
+    
+    // Moving course names to the updated location of their corresponding nodes.
+    texts.attr("transform", function(d) {
+      return "translate(" + d.x + "," + d.y + ")";
+    });
+
+    // Updating the link end points to the updated node locations.
     link
         .attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
-
-    node
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
-    
-    texts.attr("transform", function(d) {
-      return "translate(" + d.x + "," + d.y + ")";
-    });
   }
 
-function dragstarted(d) {
-  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-  d.fx = d.x;
-  d.fy = d.y;
-}
+  // The following function are redundant, since the nodes are pinned down.
+  function dragstarted(d) {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
 
-function dragged(d) {
-  d.fx = d3.event.x;
-  d.fy = d3.event.y;
-}
+  function dragged(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  }
 
-function dragended(d) {
-  if (!d3.event.active) simulation.alphaTarget(0);
-  d.fx = null;
-  d.fy = null;
-}
-
+  function dragended(d) {
+    if (!d3.event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
 </script>
 
+<!--Helps retrive the next and previous batch of results.-->
 <div class="container">
   <ul class="pagination justify-content-end">
     <li class="page-item"><a class="page-link" href="#">Previous</a></li>
