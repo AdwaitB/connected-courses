@@ -141,6 +141,56 @@ def search(coursename):
     return Response(dumps(serialize_course(coursenode)),
                     mimetype="application/json")
 
+# Write a function to service a get request to the /populate endpoint
+@app.route("/populate")
+def populate():
+    reply = {}
+
+    # Query the db for a list of names of all Instructors
+    graph = Graph("http://localhost:7474")
+    instructors = graph.nodes.match("Instructor").all()
+    reply['instructors'] = []
+    for instructor in instructors:
+        reply['instructors'].append(instructor['name'])
+        # Sort reply['instructors'] alphabetically
+    reply['instructors'].sort()
+
+    # Query the db for a list of names of all Fields
+    fields = graph.nodes.match("Field").all()
+    reply['fields'] = []
+    for field in fields:
+        reply['fields'].append(field['name'])
+        # Sort reply['fields'] alphabetically
+    reply['fields'].sort()
+
+    # Query the db for a list of names of all Courses
+    courses = graph.nodes.match("Course").all()
+    reply['courses'] = []
+    for course in courses:
+        reply['courses'].append(course['name'])
+        # Sort reply['courses'] alphabetically
+    reply['courses'].sort()
+
+    # Query the db for a list of names of all Locations
+    locations = graph.nodes.match("Location").all()
+    reply['locations'] = []
+    for location in locations:
+        reply['locations'].append(location['name'])
+        # Sort reply['locations'] alphabetically
+    reply['locations'].sort()
+
+    # Query the db for a list of names of all Days
+    days = graph.nodes.match("Day").all()
+    reply['days'] = []
+    for day in days:
+        reply['days'].append(day['name'])
+        # Sort reply['days'] alphabetically
+    reply['days'].sort()
+    
+
+    return Response(dumps(reply),
+                    mimetype="application/json")
+
 # Write a function to read tags from a file where the line is of the form field: tag1, tag2, tag3
 # Return a list of fields and tags
 def read_tags(filename):

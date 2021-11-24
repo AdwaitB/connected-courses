@@ -4,10 +4,12 @@
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/mystyle.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
 </head>
 <body>
 
@@ -46,6 +48,10 @@
   }
 </script>
 
+<div class="container">
+  <button type="button" class="btn btn-danger btn-lg m-2" id="populate_button">Populate</button>
+</div>
+
 <!--Start of the filters container.-->
 <div class="container" id="filters_container">
   <div class="row"><h2>FILTERS</h2></div>
@@ -67,13 +73,7 @@
       <!--Course based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Adv Operating Systems</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Machine Learning</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;High Performance Parallel Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computer Networks</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Database Systems Design and Implementation</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Ubiquitous Computing</a>
+        <div class="dropdown-menu scrollable-menu" id = "course_names">
         </div>
       </div>
     </div>
@@ -81,13 +81,7 @@
       <!--Professor based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Troy Peace</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Rodrigo Borela Valente</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Melinda Hardy McDaniel</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;David Andrew Joyner</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Richard Landry</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Mark Bomi Moss</a>
+        <div class="dropdown-menu scrollable-menu" id = "instructor_names">
         </div>
       </div>
     </div>
@@ -95,19 +89,7 @@
       <!--Specialization based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computational Perception and Robotics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computer Graphics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computing Systems</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Human Centered Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;High Performance Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Human-Computer Interaction</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Interactive Intelligence</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Machine Learning</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Modeling and Simulations</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Scientific Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Social Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Visual Analytics</a>
+        <div class="dropdown-menu scrollable-menu" id = "field_names">
         </div>
       </div>
     </div>
@@ -115,13 +97,7 @@
       <!--Location based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Clough UG Learning Commons</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Instructional Center</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;D.M. Smith</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Howey Physics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;College of Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Bunger-Henry</a>
+        <div class="dropdown-menu scrollable-menu" id = "location_names">
         </div>
       </div>
     </div>
@@ -129,12 +105,7 @@
       <!--Day of Week based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Monday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Tuesday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Wednesday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Thursday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Friday</a>
+        <div class="dropdown-menu scrollable-menu" id = "day_names">
         </div>
       </div>
     </div>
@@ -179,12 +150,6 @@
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Adv Operating Systems</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Machine Learning</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;High Performance Parallel Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computer Networks</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Database Systems Design and Implementation</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Ubiquitous Computing</a>
         </div>
       </div>
     </div>
@@ -193,12 +158,6 @@
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Troy Peace</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Rodrigo Borela Valente</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Melinda Hardy McDaniel</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;David Andrew Joyner</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Richard Landry</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Mark Bomi Moss</a>
         </div>
       </div>
     </div>
@@ -207,18 +166,6 @@
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computational Perception and Robotics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computer Graphics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Computing Systems</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Human Centered Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;High Performance Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Human-Computer Interaction</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Interactive Intelligence</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Machine Learning</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Modeling and Simulations</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Scientific Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Social Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Visual Analytics</a>
         </div>
       </div>
     </div>
@@ -227,12 +174,6 @@
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Clough UG Learning Commons</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Instructional Center</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;D.M. Smith</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Howey Physics</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;College of Computing</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Bunger-Henry</a>
         </div>
       </div>
     </div>
@@ -241,18 +182,13 @@
       <div class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Monday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Tuesday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Wednesday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Thursday</a>
-          <a class="dropdown-item" href="#"><input type="checkbox" onClick="ts(this)"/>&nbsp;Friday</a>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!--This button helps add more rows to the preferences matrix. Calls the fucntion defined below.-->
+<!--This button helps add more rows to the preferences matrix. Calls the function defined below.-->
 <div class="container">
   <button type="button" class="btn btn-secondary btn-lg m-2" id="pref_add_course">Add Course</button>
 </div>
@@ -473,6 +409,53 @@
     d.fx = null;
     d.fy = null;
   }
+
+  // Add on click event for populate_button
+  $("#populate_button").click(function() {
+    // Make a get to populate endpoint to fetch results in data variable
+    $.get("/populate", function(data) {
+        // Get a list of courses from data.courses
+        var courses = data.courses;
+        console.log(data)
+        // Insert an a tag for each course in courses into all divs with id course_names
+        $("#course_names").empty();
+        for (var i = 0; i < courses.length; i++) {
+            $("#course_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + courses[i] + "</a>");
+        }
+
+        // Get a list of instructors from data.instructors
+        var instructors = data.instructors;
+        // Insert an a tag for each instructor in instructors into all divs with id instructor_names
+        $("#instructor_names").empty();
+        for (var i = 0; i < instructors.length; i++) {
+            $("#instructor_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + instructors[i] + "</a>");
+        }
+        
+        // Get a list of fields from data.fields
+        var fields = data.fields;
+        // Insert an a tag for each field in fields into all divs with id field_names
+        $("#field_names").empty();
+        for (var i = 0; i < fields.length; i++) {
+            $("#field_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + fields[i] + "</a>");
+        }
+
+        // Get a list of locations from data.locations
+        var locations = data.locations;
+        // Insert an a tag for each location in locations into all divs with id location_names
+        $("#location_names").empty();
+        for (var i = 0; i < locations.length; i++) {
+            $("#location_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + locations[i] + "</a>");
+        }
+
+        // Get a list of Days from data.days
+        var days = data.days;
+        // Insert an a tag for each day in days into all divs with id day_names
+        $("#day_names").empty();
+        for (var i = 0; i < days.length; i++) {
+            $("#day_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + days[i] + "</a>");
+        }
+    });
+  });
 </script>
 
 <!--Helps retrive the next and previous batch of results.-->
