@@ -43,8 +43,15 @@
 <!--Adding functionality to have negative filters and preferences as well.-->
 <script>
   function ts(cb) {
-    if (cb.readOnly) cb.checked=cb.readOnly=false;
-    else if (!cb.checked) cb.readOnly=cb.indeterminate=true;
+    if (cb.readOnly) {
+      cb.checked=cb.readOnly=false;
+    }
+    else if(!cb.checked) {
+      cb.readOnly=cb.indeterminate=true;
+    }
+    // checked readOnly indeterminate all false -> unchecked
+    // checked true -> positive selected
+    // readOnly true -> negative selected
   }
 </script>
 
@@ -67,45 +74,47 @@
 
   <!--A single row depicting all the filters set for this particular course.-->
   <!--This row is replicated to add filters for other courses using the "Add Course" button.-->
-  <div class="row" id="filters_row">
-    <div class="col" style="background-color:lavender;"><h4 id="course_1">COURSE</h4></div>
-    <div class="col" style="background-color:lavender;">
-      <!--Course based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
-        <div class="dropdown-menu scrollable-menu" id = "course_names">
+  <div id="filters_row_parent">
+    <div class="row" id="filters_row_1">
+      <div class="col" style="background-color:lavender;"><h4 id="course_1">COURSE 1</h4></div>
+      <div class="col" style="background-color:lavender;">
+        <!--Course based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
+          <div class="dropdown-menu scrollable-menu" id = "course_names">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col" style="background-color:lavender;">
-      <!--Professor based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
-        <div class="dropdown-menu scrollable-menu" id = "instructor_names">
+      <div class="col" style="background-color:lavender;">
+        <!--Professor based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
+          <div class="dropdown-menu scrollable-menu" id = "instructor_names">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col" style="background-color:lavender;">
-      <!--Specialization based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
-        <div class="dropdown-menu scrollable-menu" id = "field_names">
+      <div class="col" style="background-color:lavender;">
+        <!--Specialization based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
+          <div class="dropdown-menu scrollable-menu" id = "field_names">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col" style="background-color:lavender;">
-      <!--Location based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
-        <div class="dropdown-menu scrollable-menu" id = "location_names">
+      <div class="col" style="background-color:lavender;">
+        <!--Location based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
+          <div class="dropdown-menu scrollable-menu" id = "location_names">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col" style="background-color:lavender;">
-      <!--Day of Week based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
-        <div class="dropdown-menu scrollable-menu" id = "day_names">
+      <div class="col" style="background-color:lavender;">
+        <!--Day of Week based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
+          <div class="dropdown-menu scrollable-menu" id = "day_names">
+          </div>
         </div>
       </div>
     </div>
@@ -119,10 +128,15 @@
 
 <script>
   $("#filters_add_course").click(function() {
-    var filters_row = document.getElementById("filters_row");
-    var clone = filters_row.cloneNode(true);
-    document.getElementById("filters_container").appendChild(clone);
+    // Using jquery, get number of elements with id of the form filters_row_*
+    var num_rows = $("#filters_row_parent").children().length;
+    var new_row = $("#filters_row_1").clone();
+    new_row.attr("id", "filters_row_" + (num_rows + 1));
+    new_row.find("h4").attr("id", "course_" + (num_rows + 1));
+    new_row.find("h4").text("COURSE " + (num_rows + 1));
+    $("#filters_row_parent").append(new_row);
   });
+
 </script>
 
 <!--This container just adds gap between the Filter and Preferences Fields-->
@@ -144,67 +158,57 @@
   </div>
 
   <div class="row" id="prefs_row">
-    <div class="col" style="background-color:lavender;"><h4>COURSE</h4></div>
-    <div class="col" style="background-color:lavender;">
-      <!--Course based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
-        <div class="dropdown-menu">
+    <div class="col" style="background-color:lavender;"></div>
+
+
+      <div class="col" style="background-color:lavender;">
+        <!--Course based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
+          <div class="dropdown-menu scrollable-menu" id = "course_names">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col" style="background-color:lavender;">
-      <!--Professor based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
-        <div class="dropdown-menu">
+      <div class="col" style="background-color:lavender;">
+        <!--Professor based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
+          <div class="dropdown-menu scrollable-menu" id = "instructor_names">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col" style="background-color:lavender;">
-      <!--Specialization based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
-        <div class="dropdown-menu">
+      <div class="col" style="background-color:lavender;">
+        <!--Specialization based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
+          <div class="dropdown-menu scrollable-menu" id = "field_names">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col" style="background-color:lavender;">
-      <!--Location based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
-        <div class="dropdown-menu">
+      <div class="col" style="background-color:lavender;">
+        <!--Location based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
+          <div class="dropdown-menu scrollable-menu" id = "location_names">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col" style="background-color:lavender;">
-      <!--Day of Week based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
-        <div class="dropdown-menu">
+      <div class="col" style="background-color:lavender;">
+        <!--Day of Week based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
+          <div class="dropdown-menu scrollable-menu" id = "day_names">
+          </div>
         </div>
       </div>
-    </div>
+
   </div>
 </div>
-
-<!--This button helps add more rows to the preferences matrix. Calls the function defined below.-->
-<div class="container">
-  <button type="button" class="btn btn-secondary btn-lg m-2" id="pref_add_course">Add Course</button>
-</div>
-
-<script>
-  $("#pref_add_course").click(function() {
-    var prefs_row = document.getElementById("prefs_row");
-    var clone = prefs_row.cloneNode(true);
-    document.getElementById("prefs_container").appendChild(clone);
-  });
-</script>
 
 <!--This is the filter button that users click on once they have set up their filters and preferences.-->
 <!--Once clicked, search results are generated and displayed for the user.-->
 <div class="container">
-  <button type="button" class="btn btn-success btn-lg m-5 btn-block">Filter</button>
+  <button type="button" class="btn btn-success btn-lg m-5 btn-block" id = "filter_button">Filter</button>
 </div>
 
 <!--Styling for our force directed graph generated.-->
@@ -226,171 +230,6 @@
 <!--Importing D3 libraries and setting up the Force Directed Graph.-->
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
-  var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
-
-  // Sets the size of the nodes of our graph.
-  var radius = 30;
-
-  // This sets a "group number" based coloring scheme for our nodes.
-  var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-  // force("link")  : Determines the length of the link between nodes. Since we're currently pinning nodes to particular coordinated, this is redundant.
-  // force("charge"): Determines the force between individual nodes. Helps prevent nodes from overlapping. Redundant due to above reason.
-  // force("center"): Determines a particular corrdinate towards which all nodes are attracted. This is to prevent nodes from flying off the SVG viewbox.
-  var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(250));
- //   .force("charge", d3.forceManyBody().strength(-50))
- //   .force("center", d3.forceCenter(width / 2, height / 2));
-
-  // Mock data for visualization. Must be replaced with a call to the backed to retrieve actual search results.
-  var data = {
-  "nodes": [
-    {"id": "1 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "1 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "1 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "1 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-    {"id": "2 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "2 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "2 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "2 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-    {"id": "3 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "3 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "3 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "3 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-    {"id": "4 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "4 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "4 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "4 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-    {"id": "5 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "5 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "5 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "5 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-    {"id": "6 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "6 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "6 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "6 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-    {"id": "7 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "7 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "7 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "7 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-    {"id": "8 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "8 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "8 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "8 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-    {"id": "9 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "9 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "9 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "9 High Performance Parallel Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-    {"id": "0 Adv Operating Systems", "professor": "Umakishore", "field": "Computing Systems", "location": "Space Center", "days": ["M", "W", "F"]},
-    {"id": "0 Machine Learning", "professor": "Abhigyaan Khaund", "field": "Machine Learning", "location": "Inspire", "days": ["M", "W"]},
-    {"id": "0 Computer Networks", "professor": "Mustafa Ammar", "field": "Computing Systems", "location": "Instruction Center", "days": ["T", "Th"]},
-    {"id": "0 High Performance Computing", "professor": "Tobin Isaacs", "field": "High Performance Parallel Computing", "location": "Fernst", "days": ["M", "W"]},
-  ],
-  "links": [
-    {"source": "1 Adv Operating Systems", "target": "1 Machine Learning", "value": 10},
-    {"source": "1 Machine Learning", "target": "1 Computer Networks", "value": 10},
-    {"source": "1 Computer Networks", "target": "1 High Performance Parallel Computing", "value": 10},
-    {"source": "2 Adv Operating Systems", "target": "2 Machine Learning", "value": 10},
-    {"source": "2 Machine Learning", "target": "2 Computer Networks", "value": 10},
-    {"source": "2 Computer Networks", "target": "2 High Performance Computing", "value": 10},
-    {"source": "3 Adv Operating Systems", "target": "3 Machine Learning", "value": 10},
-    {"source": "3 Machine Learning", "target": "3 Computer Networks", "value": 10},
-    {"source": "3 Computer Networks", "target": "3 High Performance Parallel Computing", "value": 10},
-    {"source": "4 Adv Operating Systems", "target": "4 Machine Learning", "value": 10},
-    {"source": "4 Machine Learning", "target": "4 Computer Networks", "value": 10},
-    {"source": "4 Computer Networks", "target": "4 High Performance Computing", "value": 10},
-    {"source": "5 Adv Operating Systems", "target": "5 Machine Learning", "value": 10},
-    {"source": "5 Machine Learning", "target": "5 Computer Networks", "value": 10},
-    {"source": "5 Computer Networks", "target": "5 High Performance Parallel Computing", "value": 10},
-    {"source": "6 Adv Operating Systems", "target": "6 Machine Learning", "value": 10},
-    {"source": "6 Machine Learning", "target": "6 Computer Networks", "value": 10},
-    {"source": "6 Computer Networks", "target": "6 High Performance Computing", "value": 10},
-    {"source": "7 Adv Operating Systems", "target": "7 Machine Learning", "value": 10},
-    {"source": "7 Machine Learning", "target": "7 Computer Networks", "value": 10},
-    {"source": "7 Computer Networks", "target": "7 High Performance Parallel Computing", "value": 10},
-    {"source": "8 Adv Operating Systems", "target": "8 Machine Learning", "value": 10},
-    {"source": "8 Machine Learning", "target": "8 Computer Networks", "value": 10},
-    {"source": "8 Computer Networks", "target": "8 High Performance Computing", "value": 10},
-    {"source": "9 Adv Operating Systems", "target": "9 Machine Learning", "value": 10},
-    {"source": "9 Machine Learning", "target": "9 Computer Networks", "value": 10},
-    {"source": "9 Computer Networks", "target": "9 High Performance Parallel Computing", "value": 10},
-    {"source": "0 Adv Operating Systems", "target": "0 Machine Learning", "value": 10},
-    {"source": "0 Machine Learning", "target": "0 Computer Networks", "value": 10},
-    {"source": "0 Computer Networks", "target": "0 High Performance Computing", "value": 10},
-  ]
-}
-
-  // Adding links to group "g".
-  var link = svg.append("g")
-      .attr("class", "links")
-      .selectAll("line")
-      .data(data.links)
-      .enter().append("line")
-        .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
-
-  // Adding nodes to the group "g".
-  var node = svg.append("g")
-    .attr("class", "nodes")
-    .selectAll("circle")
-    .data(data.nodes)
-    .enter().append("circle")
-      .attr("r", radius)
-      .attr("fill", function(d) { return color(d.group); })
-      .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended));
-
-  node.append("title")
-    .text(function(d) { return d.id; });
-
-  // Adding course names to the nodes.
-  var texts = svg.selectAll("text.label")
-            .data(data.nodes)
-            .enter().append("text")
-            .attr("class", "label")
-            .attr("fill", "black")
-            .text(function(d) {  return d.id;  });
-
-  // Initializing the simulation nodes and links.
-  simulation
-      .nodes(data.nodes)
-      .on("tick", ticked);
-
-  simulation.force("link")
-      .links(data.links);
-
-  function ticked() {
-    // This is the original code where the nodes are not arranged and keep moving around. Leaving it here for future reference.
-    // link
-    //     .attr("x1", function(d) { return d.source.x; })
-    //     .attr("y1", function(d) { return d.source.y; })
-    //     .attr("x2", function(d) { return d.target.x; })
-    //     .attr("y2", function(d) { return d.target.y; });
-
-    // node
-    //     .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x));})
-    //     .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
-
-    // Pinning the nodes down to their respective locations based on their order in the backend returned search results.
-    node
-        .attr("cx", function(d) { return d.x = ((d.index % 4) * width / 5) + 5 * radius;})
-        .attr("cy", function(d) { return d.y = ((d.index / 4) * (height - 4 * radius) / 10) + 2 * radius; });
-    
-    // Moving course names to the updated location of their corresponding nodes.
-    texts.attr("transform", function(d) {
-      return "translate(" + d.x + "," + d.y + ")";
-    });
-
-    // Updating the link end points to the updated node locations.
-    link
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-  }
 
   // The following function are redundant, since the nodes are pinned down.
   function dragstarted(d) {
@@ -416,46 +255,293 @@
     $.get("/populate", function(data) {
         // Get a list of courses from data.courses
         var courses = data.courses;
-        console.log(data)
         // Insert an a tag for each course in courses into all divs with id course_names
-        $("#course_names").empty();
-        for (var i = 0; i < courses.length; i++) {
-            $("#course_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + courses[i] + "</a>");
-        }
+        $("[id=course_names]").each(function() {
+            $(this).empty();
+            for (var i = 0; i < courses.length; i++) {
+              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + courses[i] + "</a>");
+            }
+        });
+
 
         // Get a list of instructors from data.instructors
         var instructors = data.instructors;
         // Insert an a tag for each instructor in instructors into all divs with id instructor_names
-        $("#instructor_names").empty();
-        for (var i = 0; i < instructors.length; i++) {
-            $("#instructor_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + instructors[i] + "</a>");
-        }
+        $("[id=instructor_names]").each(function() {
+            $(this).empty();
+            for (var i = 0; i < instructors.length; i++) {
+              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + instructors[i] + "</a>");
+            }
+        });
         
         // Get a list of fields from data.fields
         var fields = data.fields;
         // Insert an a tag for each field in fields into all divs with id field_names
-        $("#field_names").empty();
-        for (var i = 0; i < fields.length; i++) {
-            $("#field_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + fields[i] + "</a>");
-        }
+        $("[id=field_names]").each(function() {
+            $(this).empty();
+            for (var i = 0; i < fields.length; i++) {
+              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + fields[i] + "</a>");
+            }
+        });
 
         // Get a list of locations from data.locations
         var locations = data.locations;
         // Insert an a tag for each location in locations into all divs with id location_names
-        $("#location_names").empty();
-        for (var i = 0; i < locations.length; i++) {
-            $("#location_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + locations[i] + "</a>");
-        }
+        $("[id=location_names]").each(function() {
+            $(this).empty();
+            for (var i = 0; i < locations.length; i++) {
+              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + locations[i] + "</a>");
+            }
+        });
 
         // Get a list of Days from data.days
         var days = data.days;
         // Insert an a tag for each day in days into all divs with id day_names
-        $("#day_names").empty();
-        for (var i = 0; i < days.length; i++) {
-            $("#day_names").append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + days[i] + "</a>");
-        }
+        $("[id=day_names]").each(function() {
+            $(this).empty();
+            for (var i = 0; i < days.length; i++) {
+              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + days[i] + "</a>");
+            }
+        });
     });
   });
+
+  function getFilters(row) {
+    // Get the list of selected courses from the course_names div
+    var selected_courses = [];
+    $(row).find("#course_names").find("input:checked").each(function() {
+        selected_courses.push($(this).parent().text().trim());
+    });
+    var indeterminate_courses = [];
+    $(row).find("#course_names").find("input:indeterminate").each(function() {
+        indeterminate_courses.push($(this).parent().text().trim());
+    });
+
+    // Get the list of selected instructors from the instructor_names div
+    var selected_instructors = [];
+    $(row).find("#instructor_names").find("input:checked").each(function() {
+        selected_instructors.push($(this).parent().text().trim());
+    });
+    var indeterminate_instructors = [];
+    $(row).find("#instructor_names").find("input:indeterminate").each(function() {
+        indeterminate_instructors.push($(this).parent().text().trim());
+    });
+
+    // Get the list of selected fields from the field_names div
+    var selected_fields = [];
+    $(row).find("#field_names").find("input:checked").each(function() {
+        selected_fields.push($(this).parent().text().trim());
+    });
+    var indeterminate_fields = [];
+    $(row).find("#field_names").find("input:indeterminate").each(function() {
+        indeterminate_fields.push($(this).parent().text().trim());
+    });
+
+    // Get the list of selected locations from the location_names div
+    var selected_locations = [];
+    $(row).find("#location_names").find("input:checked").each(function() {
+        selected_locations.push($(this).parent().text().trim());
+    });
+    var indeterminate_locations = [];
+    $(row).find("#location_names").find("input:indeterminate").each(function() {
+        indeterminate_locations.push($(this).parent().text().trim());
+    });
+
+    // Get the list of selected days from the day_names div
+    var selected_days = [];
+    $(row).find("#day_names").find("input:checked").each(function() {
+        selected_days.push($(this).parent().text().trim());
+    });
+    var indeterminate_days = [];
+    $(row).find("#day_names").find("input:indeterminate").each(function() {
+        indeterminate_days.push($(this).parent().text().trim());
+    });
+
+    // Return the filters
+    return {
+        "positive_courses_filters": selected_courses,
+        "positive_instructors_filters": selected_instructors,
+        "positive_fields_filters": selected_fields,
+        "positive_locations_filters": selected_locations,
+        "positive_days_filters": selected_days,
+        "negative_courses_filters": indeterminate_courses,
+        "negative_instructors_filters": indeterminate_instructors,
+        "negative_fields_filters": indeterminate_fields,
+        "negative_locations_filters": indeterminate_locations,
+        "negative_days_filters": indeterminate_days
+    };
+  }
+
+  // Add an on-click event for the search button
+  $("#filter_button").click(function() {
+    // For every child of the div with id filters_row_parent, call getFilters on it
+    filters_list = [];
+    $("#filters_row_parent").children().each(function() {
+        // Call getFilters and append result to filters_list
+        filters_list.push(getFilters($(this)));
+    });
+
+
+    var selected_courses = [];
+    $("#prefs_row").find("#course_names").find("input:checked").each(function() {
+        selected_courses.push($(this).parent().text().trim());
+    });
+    var indeterminate_courses = [];
+    $("#prefs_row").find("#course_names").find("input:indeterminate").each(function() {
+        indeterminate_courses.push($(this).parent().text().trim());
+    });
+
+    var selected_instructors = [];
+    $("#prefs_row").find("#instructor_names").find("input:checked").each(function() {
+        selected_instructors.push($(this).parent().text().trim());
+    });
+    var indeterminate_instructors = [];
+    $("#prefs_row").find("#instructor_names").find("input:indeterminate").each(function() {
+        indeterminate_instructors.push($(this).parent().text().trim());
+    });
+
+    var selected_fields = [];
+    $("#prefs_row").find("#field_names").find("input:checked").each(function() {
+        selected_fields.push($(this).parent().text().trim());
+    });
+    var indeterminate_fields = [];
+    $("#prefs_row").find("#field_names").find("input:indeterminate").each(function() {
+        indeterminate_fields.push($(this).parent().text().trim());
+    });
+
+    var selected_locations = [];
+    $("#prefs_row").find("#location_names").find("input:checked").each(function() {
+        selected_locations.push($(this).parent().text().trim());
+    });
+    var indeterminate_locations = [];
+    $("#prefs_row").find("#location_names").find("input:indeterminate").each(function() {
+        indeterminate_locations.push($(this).parent().text().trim());
+    });
+
+    var selected_days = [];
+    $("#prefs_row").find("#day_names").find("input:checked").each(function() {
+        selected_days.push($(this).parent().text().trim());
+    });
+    var indeterminate_days = [];
+    $("#prefs_row").find("#day_names").find("input:indeterminate").each(function() {
+        indeterminate_days.push($(this).parent().text().trim());
+    });
+
+    var preferences =  {
+        "positive_courses_preferences": selected_courses,
+        "positive_instructors_preferences": selected_instructors,
+        "positive_fields_preferences": selected_fields,
+        "positive_locations_preferences": selected_locations,
+        "positive_days_preferences": selected_days,
+        "negative_courses_preferences": indeterminate_courses,
+        "negative_instructors_preferences": indeterminate_instructors,
+        "negative_fields_preferences": indeterminate_fields,
+        "negative_locations_preferences": indeterminate_locations,
+        "negative_days_preferences": indeterminate_days
+    };
+
+    // Send the filters_list to the server, and get the response in the callback
+    $.get("/filter", {
+        "filters_list": JSON.stringify(filters_list),
+        "preferences_list": JSON.stringify(preferences)
+    }, function(data) {
+      // Clear the contents of svg tag
+      d3.select("svg").selectAll("*").remove();
+          var svg = d3.select("svg"),
+          width = +svg.attr("width"),
+          height = +svg.attr("height");
+
+        // Sets the size of the nodes of our graph.
+        var radius = 30;
+
+        // This sets a "group number" based coloring scheme for our nodes.
+        var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+        var nodes = data.nodes;
+        var links = data.links;
+
+        // force("link")  : Determines the length of the link between nodes. Since we're currently pinning nodes to particular coordinated, this is redundant.
+        // force("charge"): Determines the force between individual nodes. Helps prevent nodes from overlapping. Redundant due to above reason.
+        // force("center"): Determines a particular corrdinate towards which all nodes are attracted. This is to prevent nodes from flying off the SVG viewbox.
+        var simulation = d3.forceSimulation()
+          .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(250));
+      //   .force("charge", d3.forceManyBody().strength(-50))
+      //   .force("center", d3.forceCenter(width / 2, height / 2));
+
+        // Adding links to group "g".
+        var link = svg.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(data.links)
+            .enter().append("line")
+              .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+        // Adding nodes to the group "g".
+        var node = svg.append("g")
+          .attr("class", "nodes")
+          .selectAll("circle")
+          .data(data.nodes)
+          .enter().append("circle")
+            .attr("r", radius)
+            .attr("fill", function(d) { return color(d.group); })
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+
+        node.append("title")
+          .text(function(d) { return d.id; });
+
+        // Adding course names to the nodes.
+        var texts = svg.selectAll("text.label")
+                  .data(data.nodes)
+                  .enter().append("text")
+                  .attr("class", "label")
+                  .attr("fill", "black")
+                  .text(function(d) {  return d.id;  });
+
+        // Initializing the simulation nodes and links.
+        simulation
+            .nodes(data.nodes)
+            .on("tick", ticked);
+
+        simulation.force("link")
+            .links(data.links);
+
+        function ticked() {
+          // This is the original code where the nodes are not arranged and keep moving around. Leaving it here for future reference.
+          // link
+          //     .attr("x1", function(d) { return d.source.x; })
+          //     .attr("y1", function(d) { return d.source.y; })
+          //     .attr("x2", function(d) { return d.target.x; })
+          //     .attr("y2", function(d) { return d.target.y; });
+
+          // node
+          //     .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x));})
+          //     .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
+
+          var num_rows = $("#filters_row_parent").children().length;
+          // Pinning the nodes down to their respective locations based on their order in the backend returned search results.
+          node
+              .attr("cx", function(d) { return d.x = ((d.index % num_rows) * width / 5) + 5 * radius;})
+              .attr("cy", function(d) { return d.y = ((d.index / num_rows) * (height - num_rows * radius) / 10) + 2 * radius; });
+          
+          // Moving course names to the updated location of their corresponding nodes.
+          texts.attr("transform", function(d) {
+            return "translate(" + d.x + "," + d.y + ")";
+          });
+
+          // Updating the link end points to the updated node locations.
+          link
+              .attr("x1", function(d) { return d.source.x; })
+              .attr("y1", function(d) { return d.source.y; })
+              .attr("x2", function(d) { return d.target.x; })
+              .attr("y2", function(d) { return d.target.y; });
+        }
+          });
+
+  });
+
 </script>
 
 <!--Helps retrive the next and previous batch of results.-->

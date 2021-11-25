@@ -5,7 +5,7 @@ class Filter:
     days = []
     locations = []
 
-    def __init__(self, course_name, instructors, fields, days, locations):
+    def __init__(self, course_name, instructors, fields, locations, days):
         self.course_name = course_name
         self.instructors = instructors
         self.fields = fields
@@ -132,7 +132,7 @@ class Preferences:
     negative_locations = []
     negative_course_to_fields = {}
 
-    def __init__(self, positive_courses, negative_courses, positive_instructors, negative_instructors, positive_fields, negative_fields, positive_days, negative_days, positive_locations, negative_locations, course_to_fields):
+    def __init__(self, positive_courses, negative_courses, positive_instructors, negative_instructors, positive_fields, negative_fields, positive_locations, negative_locations, positive_days, negative_days, course_to_fields):
         self.positive_courses = positive_courses
         self.positive_instructors = positive_instructors
         self.positive_fields = positive_fields

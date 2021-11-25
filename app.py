@@ -1,4 +1,5 @@
 from flask import Flask, Response, request
+import json
 from json import dumps
 import time
 
@@ -71,75 +72,10 @@ def serialize_course(course):
         'instructor': course['instructor']
     }
 
-@app.route("/")
-def hello_world():
-    return app.send_static_file('landing.html')
-
 # Sample Search results Page
 @app.route("/results")
 def show_results():
     return app.send_static_file('result.html')
-
-# Write a handler for a get request on /search
-@app.route("/search/<coursename>")
-def search(coursename):
-    graph = Graph("http://localhost:7474")
-    coursenode = graph.nodes.match("Course", name=coursename).first()
-
-    filter1 = Filter('Machine Learning', [], [], [], [])
-    filter2 = Filter('', [], [], [], [])
-    filter3 = Filter('', [], ['Other', 'HCI'], [], [])
-    filter4 = Filter('', [], [], [], ['Scheller College of Business'])
-    positive_filters = [filter1, filter2, filter3, filter4]
-
-    negfilter1 = Filter('', [], [], [], [])
-    negfilter2 = Filter('', [], [], [], [])
-    negfilter3 = Filter('', [], [], [], [])
-    negfilter4 = Filter('', [], [], [], ['R,J. Erskine Love Manufacturing'])
-    negative_filters = [negfilter1, negfilter2, negfilter3, negfilter4]
-
-    query_generator = QueryGenerator(4, positive_filters, negative_filters)
-    result_set = graph.run(query_generator.generate_query()).data()
-
-    preferences = Preferences([], [], \
-    ['Umakishore   Ramachandran (P)', 'Gerandy   Brito (P)'], ['Ada   Gavrilovska (P)'], \
-    ['Security', 'Networks', 'HCI'], ['Computer Vision', 'Machine Learning'], \
-    ['T'], ['R', 'F'], \
-    ['Scheller College of Business', 'Klaus Advanced Computing', 'College of Computing', 'Instructional Center'], ['R,J. Erskine Love Manufacturing'], \
-    course_to_fields)
-
-    print("Positive Filters are:")
-    for filter in positive_filters:
-        print(filter)
-    print("Negative Filters are:")
-    for filter in negative_filters:
-        print(filter)
-
-    print("Preferences are :")
-    print(preferences)
-    result_objects = []
-    for result in result_set:
-        result_object = Result(result)
-        result_objects.append(result_object)
-    
-    for i in range(len(result_objects)):
-        result_objects[i] = preferences.evaluate(result_objects[i])
-
-    result_objects.sort(key=lambda x: x.score, reverse=True)
-
-    print("Ordered Suggestions")
-
-    for result in result_objects:
-        print("________________________________________________________")
-        for course in result.info:
-            print(result.info[course]['name'] + " " + str(result.info[course]['time']))
-        print("Score " + str(result.score))
-        result.matched_preferences.sort()
-        print("Matched preferences " + str(result.matched_preferences))
-        
-
-    return Response(dumps(serialize_course(coursenode)),
-                    mimetype="application/json")
 
 # Write a function to service a get request to the /populate endpoint
 @app.route("/populate")
@@ -191,6 +127,92 @@ def populate():
     return Response(dumps(reply),
                     mimetype="application/json")
 
+# Function to handle a get request at /filter endpoint which accepts a JSON object
+# containing the filters to be applied to the search
+@app.route("/filter", methods=['GET'])
+def filter():
+    # Get the filters from the request
+    filters = request.args.get('filters_list')
+    filters = json.loads(filters)
+
+    # Get the preferences from the request
+    preferences = request.args.get('preferences_list')
+    preferences = json.loads(preferences)
+    
+    positive_filter_list = []
+    negative_filter_list = []
+
+    for filter in filters:
+        course_filter = filter['positive_courses_filters'][0] if len(filter['positive_courses_filters']) > 0 else ""
+        instructor_list = filter['positive_instructors_filters']
+        field_list = filter['positive_fields_filters']
+        location_list = filter['positive_locations_filters']
+        day_list = filter['positive_days_filters']
+        positive_filter_list.append(Filter(course_filter, instructor_list, field_list, location_list, day_list))
+
+        negative_course_filter = filter['negative_courses_filters'][0] if len(filter['negative_courses_filters']) > 0 else ""
+        negative_instructor_list = filter['negative_instructors_filters']
+        negative_field_list = filter['negative_fields_filters']
+        negative_location_list = filter['negative_locations_filters']
+        negative_day_list = filter['negative_days_filters']
+        negative_filter_list.append(Filter(negative_course_filter, negative_instructor_list, negative_field_list, negative_location_list, negative_day_list))
+
+    # Create a QueryGenerator object
+    query_generator = QueryGenerator(len(positive_filter_list), positive_filter_list, negative_filter_list)
+
+    preferences_object = Preferences(preferences['positive_courses_preferences'], preferences['negative_courses_preferences'], \
+    preferences['positive_instructors_preferences'], preferences['negative_instructors_preferences'], \
+    preferences['positive_fields_preferences'], preferences['negative_fields_preferences'], \
+    preferences['positive_locations_preferences'], preferences['negative_locations_preferences'], \
+    preferences['positive_days_preferences'], preferences['negative_days_preferences'], \
+    course_to_fields)
+
+    graph = Graph("http://localhost:7474")
+    result_set = graph.run(query_generator.generate_query()).data()
+
+    result_objects = []
+    for result in result_set:
+        result_object = Result(result)
+        result_objects.append(result_object)
+    
+    for i in range(len(result_objects)):
+        result_objects[i] = preferences_object.evaluate(result_objects[i])
+
+    result_objects.sort(key=lambda x: x.score, reverse=True)
+
+    print("Ordered Suggestions")
+
+    nodes = []
+    links = []
+    data = {}
+    count = 1
+    prev = 0
+
+    for result in result_objects:
+        print("________________________________________________________")
+        for course in result.info:
+            print(result.info[course]['name'] + " " + str(result.info[course]['time']))
+        print("Score " + str(result.score))
+        result.matched_preferences.sort()
+        print("Matched preferences " + str(result.matched_preferences))
+
+
+        for course in result.info:
+            nodes.append({"id":str(count) + " " + result.info[course]['name'], "name": result.info[course]['name'], "professor": result.info[course]['instructor'], "field": result.info[course]['field'], "location": result.info[course]['location'], "days": result.info[course]['day']})
+
+        for i in range(prev, len(nodes) - 1):
+            links.append({"source": nodes[i]['id'], "target": nodes[i+1]['id'], "value": 10})
+
+        prev = len(nodes)
+        count += 1
+
+    data['nodes'] = nodes
+    data['links'] = links
+
+    return Response(dumps(data),
+                    mimetype="application/json")
+
+
 # Write a function to read tags from a file where the line is of the form field: tag1, tag2, tag3
 # Return a list of fields and tags
 def read_tags(filename):
@@ -207,8 +229,6 @@ def read_tags(filename):
             course = line.strip().split(':')[0]
             related_fields = line.strip().split(':')[1].split(',')
             course_to_fields[course] = related_fields
-    print(fields)
-    print(course_to_fields)
     return fields, course_to_fields
 
 def post_to_neo4j(records):
@@ -259,8 +279,6 @@ def post_to_neo4j(records):
             if field not in fields:
                 fields[field] = Node("Field", name=field)
                 fieldNodes.append(fields[field])
-        
-        print(courses[coursename]['name'])
     
     for i in range(len(courseNodes)):
         for j in range(i+1, len(courseNodes)):
