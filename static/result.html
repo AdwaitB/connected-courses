@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>CS 6400 Project</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -79,7 +79,7 @@
 
       // If filtersString is empty, set button text to "Select"
       if (filtersString === "") {
-        filtersString = "Select";
+        filtersString = "+";
       }
 
       // Set button text to state
@@ -109,7 +109,7 @@
       <div class="col">
         <!--Course based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "course_names">
           </div>
         </div>
@@ -117,7 +117,7 @@
       <div class="col">
         <!--Professor based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 200px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "instructor_names">
           </div>
         </div>
@@ -125,7 +125,7 @@
       <div class="col">
         <!--Specialization based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "field_names">
           </div>
         </div>
@@ -133,7 +133,7 @@
       <div class="col">
         <!--Location based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "location_names">
           </div>
         </div>
@@ -141,7 +141,7 @@
       <div class="col">
         <!--Day of Week based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "day_names">
           </div>
         </div>
@@ -177,9 +177,9 @@
   });
 
   $("#filters_reset_everything").click(function() {
-    // Using jquery, reset all checkboxes to unchecked and text of buttons in row to "Select"
+    // Using jquery, reset all checkboxes to unchecked and text of buttons in row to "+"
     $("#filters_row_parent").children().each(function() {
-      $(this).find("button").text("Select");
+      $(this).find("button").text("+");
       $(this).find("input").prop("checked", false);
     });
   });
@@ -210,7 +210,7 @@
       <div class="col">
         <!--Course based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "course_names">
           </div>
         </div>
@@ -218,7 +218,7 @@
       <div class="col">
         <!--Professor based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "instructor_names">
           </div>
         </div>
@@ -226,7 +226,7 @@
       <div class="col">
         <!--Specialization based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "field_names">
           </div>
         </div>
@@ -234,7 +234,7 @@
       <div class="col">
         <!--Location based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "location_names">
           </div>
         </div>
@@ -242,7 +242,7 @@
       <div class="col">
         <!--Day of Week based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">+</button>
           <div class="dropdown-menu scrollable-menu" id = "day_names">
           </div>
         </div>
@@ -260,7 +260,7 @@
     // Using jquery, reset all checkboxes to unchecked and text of buttons in row to "Select"
     console.log("Here");
     $("#prefs_row").children().each(function() {
-      $(this).find("button").text("Select");
+      $(this).find("button").text("+");
       $(this).find("input").prop("checked", false);
     });
   });
@@ -285,30 +285,12 @@
   }
 </style>
 
-<!--Setting up the SVG within which our graph will be rendered.-->
-<svg width="1920" height="1080"></svg>
+<!-- Create a div where the graph will take place -->
+<svg> </svg>
 
 <!--Importing D3 libraries and setting up the Force Directed Graph.-->
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
-
-  // The following function are redundant, since the nodes are pinned down.
-  function dragstarted(d) {
-    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
-
-  function dragged(d) {
-    d.fx = d3.event.x;
-    d.fy = d3.event.y;
-  }
-
-  function dragended(d) {
-    if (!d3.event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
 
   function getFilters(row) {
     // Get the list of selected courses from the course_names div
@@ -448,99 +430,112 @@
         "filters_list": JSON.stringify(filters_list),
         "preferences_list": JSON.stringify(preferences)
     }, function(data) {
-      // Clear the contents of svg tag
-      d3.select("svg").selectAll("*").remove();
-          var svg = d3.select("svg"),
-          width = +svg.attr("width"),
-          height = +svg.attr("height");
+      console.log(data);
+      // Using jquery, clear the contents of the svg element
+      $("#svg").html("");
+    var width = 1920
+    var height = 1200
 
-        // Sets the size of the nodes of our graph.
-        var radius = 30;
+    // Get first 10 elements of data.nodes
 
-        // This sets a "group number" based coloring scheme for our nodes.
-        var color = d3.scaleOrdinal(d3.schemeCategory20);
+    var nodes = data.nodes.slice(0, 40);
+    var links = data.links.slice(0, 30);
 
-        var nodes = data.nodes;
-        var links = data.links;
+    // End of Variable declarations
 
-        // force("link")  : Determines the length of the link between nodes. Since we're currently pinning nodes to particular coordinated, this is redundant.
-        // force("charge"): Determines the force between individual nodes. Helps prevent nodes from overlapping. Redundant due to above reason.
-        // force("center"): Determines a particular corrdinate towards which all nodes are attracted. This is to prevent nodes from flying off the SVG viewbox.
-        var simulation = d3.forceSimulation()
-          .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(250));
-      //   .force("charge", d3.forceManyBody().strength(-50))
-      //   .force("center", d3.forceCenter(width / 2, height / 2));
+    var svg = d3.select('svg').attr('width', width).attr('height', height)
 
-        // Adding links to group "g".
-        var link = svg.append("g")
-            .attr("class", "links")
-            .selectAll("line")
-            .data(data.links)
-            .enter().append("line")
-              .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+    // simulation setup with all forces
+    var linkForce = d3
+      .forceLink()
+      .id(function (link) { return link.id })
+      .distance(function () { return 70 })
+      .strength(function (link) { return 0 })
 
-        // Adding nodes to the group "g".
-        var node = svg.append("g")
-          .attr("class", "nodes")
-          .selectAll("circle")
-          .data(data.nodes)
-          .enter().append("circle")
-            .attr("r", radius)
-            .attr("fill", function(d) { return color(d.group); })
-            .call(d3.drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended));
+    var simulation = d3
+      .forceSimulation()
+      .force('link', linkForce)
 
-        node.append("title")
-          .text(function(d) { return d.id; });
+    var dragDrop = d3.drag().on('start', function (node) {
+      node.fx = node.x
+      node.fy = node.y
+    }).on('drag', function (node) {
+      simulation.alphaTarget(0.1).restart()
+      node.fx = d3.event.x
+      node.fy = d3.event.y
+    }).on('end', function (node) {
+      if (!d3.event.active) {
+        simulation.alphaTarget(0)
+      }
+      node.fx = null
+      node.fy = null
+    })
 
-        // Adding course names to the nodes.
-        var texts = svg.selectAll("text.label")
-                  .data(data.nodes)
-                  .enter().append("text")
-                  .attr("class", "label")
-                  .attr("fill", "black")
-                  .text(function(d) {  return d.id;  });
+    var linkElements = svg.append("g")
+      .attr("class", "links")
+      .selectAll("line")
+      .data(links)
+      .enter().append("line")
+        .attr("stroke-width", 2)
+        .attr("stroke", "rgba(255,255,255, 1.0)")
 
-        // Initializing the simulation nodes and links.
-        simulation
-            .nodes(data.nodes)
-            .on("tick", ticked);
+    var nodeElements = svg.append("g")
+      .attr("class", "nodes")
+      .selectAll("circle")
+      .data(nodes)
+      .enter().append("circle")
+        .attr("r", 20)
+        .attr("fill", "gold")
+        .attr("stroke", "black")
+        .attr("stroke-width", "1")
+        .call(dragDrop)
+        .on("click", function(selectedNode) {
+            location.href = "http://localhost:5000/switches/" + selectedNode.label
+        })
 
-        simulation.force("link")
-            .links(data.links);
+    var textElements = svg.append("g")
+      .attr("class", "texts")
+      .selectAll("text")
+      .data(nodes)
+      .enter().append("text")
+        .text(function (node) { return node.id })
+        .style("fill", "black")
+        .on("mouseover", function(node) {
+          d3.select(this)
+          .attr("font-size", "20")
+          .style("fill", "orange")
+          .style("text-decoration","underline")
+          .text(node.matchedpreferences)
+        })
+        .on("mouseout", function(node) {
+          d3.select(this)
+          .attr("font-size", "15")
+          .style("fill", "black")
+          .style("text-decoration","")
+          .text(function (node) { return node.id })
+        })
+        .attr("font-size", 15)
+        .attr("dx", -20)
+        .attr("dy", -20)
 
-        function ticked() {
-          // This is the original code where the nodes are not arranged and keep moving around. Leaving it here for future reference.
-          // link
-          //     .attr("x1", function(d) { return d.source.x; })
-          //     .attr("y1", function(d) { return d.source.y; })
-          //     .attr("x2", function(d) { return d.target.x; })
-          //     .attr("y2", function(d) { return d.target.y; });
 
-          // node
-          //     .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x));})
-          //     .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
 
-          var num_rows = $("#filters_row_parent").children().length;
-          // Pinning the nodes down to their respective locations based on their order in the backend returned search results.
-          node
-              .attr("cx", function(d) { return d.x = ((d.index % num_rows) * width / 5) + 5 * radius;})
-              .attr("cy", function(d) { return d.y = ((d.index / num_rows) * (height - num_rows * radius) / 10) + 2 * radius; });
-          
-          // Moving course names to the updated location of their corresponding nodes.
-          texts.attr("transform", function(d) {
-            return "translate(" + d.x + "," + d.y + ")";
-          });
+    simulation.nodes(nodes).on('tick', () => {
+      nodeElements
+        .attr('cx', function (node) { return node.x })
+        .attr('cy', function (node) { return node.y })
+      textElements
+        .attr('x', function (node) { return node.x })
+        .attr('y', function (node) { return node.y })
+      linkElements
+        .attr('x1', function (link) { return link.source.x })
+        .attr('y1', function (link) { return link.source.y })
+        .attr('x2', function (link) { return link.target.x })
+        .attr('y2', function (link) { return link.target.y })
+    })
 
-          // Updating the link end points to the updated node locations.
-          link
-              .attr("x1", function(d) { return d.source.x; })
-              .attr("y1", function(d) { return d.source.y; })
-              .attr("x2", function(d) { return d.target.x; })
-              .attr("y2", function(d) { return d.target.y; });
-        }
+    simulation.force("link").links(links)
+
           });
 
   });

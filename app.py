@@ -135,6 +135,9 @@ def filter():
     filters = request.args.get('filters_list')
     filters = json.loads(filters)
 
+    n_courses = len(filters)
+    print("Number of courses:" + str(n_courses))
+
     # Get the preferences from the request
     preferences = request.args.get('preferences_list')
     preferences = json.loads(preferences)
@@ -184,27 +187,44 @@ def filter():
 
     nodes = []
     links = []
+    scores = []
     data = {}
     count = 1
     prev = 0
 
+    yiteration = 0
     for result in result_objects:
-        print("________________________________________________________")
-        for course in result.info:
-            print(result.info[course]['name'] + " " + str(result.info[course]['time']))
-        print("Score " + str(result.score))
-        result.matched_preferences.sort()
-        print("Matched preferences " + str(result.matched_preferences))
+        # print("________________________________________________________")
+        # for course in result.info:
+        #     print(result.info[course]['name'] + " " + str(result.info[course]['time']))
+        # print("Score " + str(result.score))
+        # result.matched_preferences.sort()
+        # print("Matched preferences " + str(result.matched_preferences))
 
-
+        xiteration = 0
         for course in result.info:
-            nodes.append({"id":str(count) + " " + result.info[course]['name'], "name": result.info[course]['name'], "professor": result.info[course]['instructor'], "field": result.info[course]['field'], "location": result.info[course]['location'], "days": result.info[course]['day']})
+            course_name = result.info[course]['name']
+            matched_preferences = []
+            for preference in result.matched_preferences:
+                if course_name in preference:
+                    matched_preferences.append(preference)
+            matched_preferences.sort()
+            # Create a string from matched_preferences
+            matched_preferences_string = ""
+            for preference in matched_preferences:
+                matched_preferences_string += preference + " "
+            if xiteration % n_courses == 0:
+                nodes.append({"matchedpreferences":matched_preferences_string, "x": 50 + xiteration * 300 , "y": 50 + yiteration * 100, "id":"Score:" + str(result.score) + " " + str(count) + " " + result.info[course]['name'], "name": result.info[course]['name'], "professor": result.info[course]['instructor'], "field": result.info[course]['field'], "location": result.info[course]['location'], "days": result.info[course]['day'], "score": result.score})
+            else:
+                nodes.append({"matchedpreferences":matched_preferences_string, "x": 50 + xiteration * 300 , "y": 50 + yiteration * 100, "id":str(count) + " " + result.info[course]['name'], "name": result.info[course]['name'], "professor": result.info[course]['instructor'], "field": result.info[course]['field'], "location": result.info[course]['location'], "days": result.info[course]['day'], "score": result.score})
+            xiteration += 1
 
         for i in range(prev, len(nodes) - 1):
             links.append({"source": nodes[i]['id'], "target": nodes[i+1]['id'], "value": 10})
 
         prev = len(nodes)
         count += 1
+        yiteration += 1
 
     data['nodes'] = nodes
     data['links'] = links
