@@ -2,3 +2,32 @@
     height:400px;
     overflow-y:auto;
 }
+
+body {
+    background: #F9F6E5;
+}
+.pagecontent {
+    margin: 0%;
+    text-align: center;
+    padding: 0%;
+}
+
+#filter_button{
+    width: 20%;
+}
+
+#filters_container{
+    width: 100%;
+    background-color: #F9F6E5;
+    padding: 3%;
+}
+
+#prefs_container{
+    width: 100%;
+    background-color: #F9F6E5;
+    padding: 2%;
+}
+
+.jumbotron {
+    color: #003057;
+}

@@ -4,12 +4,13 @@
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/static/mystyle.css">
+  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
+  <link rel="stylesheet" href="/static/mystyle.css">
+
 </head>
 <body>
 
@@ -23,22 +24,22 @@
     <li class="nav-item">
       <a class="nav-link" href="#">Home</a>
     </li>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link" href="#">Some Other Link</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="#">Yet Another Link</a>
-    </li>
+    </li> -->
   </ul>
 </nav>
 
 <!--Adding a jumbotro bar on top. No functionality, just for aesthetics.-->
-<div class="jumbotron text-center bg-info text-white" style="margin-bottom:0">
+<div class="jumbotron text-center" style="margin-bottom:0; background-color: #B3A369;">
   <h1>Suggested Courses For You</h1>
 </div>
 
 <!--Creates some space between the jumbotron and the filters div.-->
-<div class="container m-5"></div>
+<!-- <div class="container m-1"></div> -->
 
 <!--Adding functionality to have negative filters and preferences as well.-->
 <script>
@@ -52,67 +53,95 @@
     // checked readOnly indeterminate all false -> unchecked
     // checked true -> positive selected
     // readOnly true -> negative selected
+
+    updateSelectedFilters(cb);
+
+    function updateSelectedFilters(cb) {
+      var parent = cb.parentNode;
+      var grandparent = parent.parentNode;
+      var greatgrandparent = grandparent.parentNode;
+
+      // Get state of all selected checkboxes and store value of checkbox in string
+      var selected = Array.from(greatgrandparent.querySelectorAll('input[type="checkbox"]:checked'))
+        .map(cb => "+" + cb.parentNode.textContent);
+      // Get state of all readOnly checkboxes and store value of checkbox in string
+      var indeterminate = Array.from(greatgrandparent.querySelectorAll('input[type="checkbox"]:indeterminate'))
+        .map(cb => "-" + cb.parentNode.textContent);
+
+      // Combine selected and indeterminate arrays
+      var filters = selected.concat(indeterminate);
+
+      // Convert filters array into a string separated by commas
+      var filtersString = filters.join(',\n');
+
+      // Find button element in greatgrandparent
+      var button = greatgrandparent.querySelector('button');
+
+      // If filtersString is empty, set button text to "Select"
+      if (filtersString === "") {
+        filtersString = "Select";
+      }
+
+      // Set button text to state
+      button.textContent = filtersString;
+    }
   }
 </script>
 
-<div class="container">
-  <button type="button" class="btn btn-danger btn-lg m-2" id="populate_button">Populate</button>
-</div>
-
 <!--Start of the filters container.-->
-<div class="container" id="filters_container">
+<div class="container text-center" id="filters_container">
   <div class="row"><h2>FILTERS</h2></div>
   <div class="row">
     <!--Headers for the set of filters provided by us.-->
-    <div class="col" style="background-color:lavender;"></div>
-    <div class="col" style="background-color:lavender;"><h4>NAME<h4></div>
-    <div class="col" style="background-color:lavender;"><h4>PROFESSOR</h4></div>
-    <div class="col" style="background-color:lavender;"><h4>FIELD</h4></div>
-    <div class="col" style="background-color:lavender;"><h4>LOCATION</h4></div>
-    <div class="col" style="background-color:lavender;"><h4>DAYS</h4></div>
+    <div class="col"></div>
+    <div class="col"><h4>NAME<h4></div>
+    <div class="col"><h4>PROFESSOR</h4></div>
+    <div class="col"><h4>FIELD</h4></div>
+    <div class="col"><h4>LOCATION</h4></div>
+    <div class="col"><h4>DAYS</h4></div>
   </div>
 
   <!--A single row depicting all the filters set for this particular course.-->
   <!--This row is replicated to add filters for other courses using the "Add Course" button.-->
   <div id="filters_row_parent">
-    <div class="row" id="filters_row_1">
-      <div class="col" style="background-color:lavender;"><h4 id="course_1">COURSE 1</h4></div>
-      <div class="col" style="background-color:lavender;">
+    <div class="row m-1" id="filters_row_1">
+      <div class="col"><h4 id="course_1">COURSE 1</h4></div>
+      <div class="col">
         <!--Course based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "course_names">
           </div>
         </div>
       </div>
-      <div class="col" style="background-color:lavender;">
+      <div class="col">
         <!--Professor based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "instructor_names">
           </div>
         </div>
       </div>
-      <div class="col" style="background-color:lavender;">
+      <div class="col">
         <!--Specialization based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "field_names">
           </div>
         </div>
       </div>
-      <div class="col" style="background-color:lavender;">
+      <div class="col">
         <!--Location based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "location_names">
           </div>
         </div>
       </div>
-      <div class="col" style="background-color:lavender;">
+      <div class="col">
         <!--Day of Week based filter. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "day_names">
           </div>
         </div>
@@ -123,7 +152,9 @@
 
 <!--This button helps add more rows to the filters matrix. Calls the fucntion defined below.-->
 <div class="container">
-  <button type="button" class="btn btn-secondary btn-lg m-2" id="filters_add_course">Add Course</button>
+  <button type="button" class="btn btn-primary btn-lg m-2" id="filters_add_course" style="background-color: #EAAA00;color:#003057;">Add Course</button>
+  <button type="button" class="btn btn-secondary btn-lg m-2" id="filters_remove_course" style="background-color: #54585A;">Remove Course</button>
+  <button type="button" class="btn btn-secondary btn-lg m-2" id="filters_reset_everything" style="background-color: #FF640F;">Reset</button>
 </div>
 
 <script>
@@ -137,66 +168,81 @@
     $("#filters_row_parent").append(new_row);
   });
 
+  $("#filters_remove_course").click(function() {
+    // Using jquery, get number of elements with id of the form filters_row_*
+    var num_rows = $("#filters_row_parent").children().length;
+    if (num_rows > 1) {
+      $("#filters_row_parent").children().last().remove();
+    }
+  });
+
+  $("#filters_reset_everything").click(function() {
+    // Using jquery, reset all checkboxes to unchecked and text of buttons in row to "Select"
+    $("#filters_row_parent").children().each(function() {
+      $(this).find("button").text("Select");
+      $(this).find("input").prop("checked", false);
+    });
+  });
 </script>
 
 <!--This container just adds gap between the Filter and Preferences Fields-->
 <div class="container m-5"></div>
 
 <!--This is the container for our Preferences Matrix.-->
-<div class="container" id="prefs_container">
+<div class="container text-center" id="prefs_container">
   <!--A single row depicting all the preferences set for this particular course.-->
   <!--This row is replicated to add preferences for other courses using the "Add Course" button.-->
   <div class="row"><h2>PREFERENCES</h2></div>
   <div class="row">
     <!--Similar to our filters, these are the set of preferences that the user can set.-->
-    <div class="col" style="background-color:lavender;"></div>
-    <div class="col" style="background-color:lavender;"><h4>NAME<h4></div>
-    <div class="col" style="background-color:lavender;"><h4>PROFESSOR</h4></div>
-    <div class="col" style="background-color:lavender;"><h4>FIELD</h4></div>
-    <div class="col" style="background-color:lavender;"><h4>LOCATION</h4></div>
-    <div class="col" style="background-color:lavender;"><h4>DAYS</h4></div>
+    <div class="col"></div>
+    <div class="col"><h4>NAME<h4></div>
+    <div class="col"><h4>PROFESSOR</h4></div>
+    <div class="col"><h4>FIELD</h4></div>
+    <div class="col"><h4>LOCATION</h4></div>
+    <div class="col"><h4>DAYS</h4></div>
   </div>
 
   <div class="row" id="prefs_row">
-    <div class="col" style="background-color:lavender;"></div>
+    <div class="col"></div>
 
 
-      <div class="col" style="background-color:lavender;">
+      <div class="col">
         <!--Course based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Course</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "course_names">
           </div>
         </div>
       </div>
-      <div class="col" style="background-color:lavender;">
+      <div class="col">
         <!--Professor based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Professor</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "instructor_names">
           </div>
         </div>
       </div>
-      <div class="col" style="background-color:lavender;">
+      <div class="col">
         <!--Specialization based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Specialization</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "field_names">
           </div>
         </div>
       </div>
-      <div class="col" style="background-color:lavender;">
+      <div class="col">
         <!--Location based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Location</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "location_names">
           </div>
         </div>
       </div>
-      <div class="col" style="background-color:lavender;">
+      <div class="col">
         <!--Day of Week based preference. Users are either want, not want, or not care about courses using a tri-state checkbox.-->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="dropdown">Day of Week</button>
+          <button type="button" class="btn btn-info" style="max-width: 150px; white-space: normal; word-break: break-word; background-color:#003057" data-toggle="dropdown">Select</button>
           <div class="dropdown-menu scrollable-menu" id = "day_names">
           </div>
         </div>
@@ -205,10 +251,25 @@
   </div>
 </div>
 
+<div class="container">
+  <button type="button" class="btn btn-secondary btn-lg m-2" id="preferences_reset_everything" style="background-color: #FF640F;">Reset</button>
+</div>
+
+<script>
+    $('#preferences_reset_everything').click(function() {
+    // Using jquery, reset all checkboxes to unchecked and text of buttons in row to "Select"
+    console.log("Here");
+    $("#prefs_row").children().each(function() {
+      $(this).find("button").text("Select");
+      $(this).find("input").prop("checked", false);
+    });
+  });
+</script>
+
 <!--This is the filter button that users click on once they have set up their filters and preferences.-->
 <!--Once clicked, search results are generated and displayed for the user.-->
-<div class="container">
-  <button type="button" class="btn btn-success btn-lg m-5 btn-block" id = "filter_button">Filter</button>
+<div class="container text-center">
+  <button type="button" class="btn btn-success btn-lg m-5" id = "filter_button" style="background-color: #64CCC9; color: #003057;">Filter</button>
 </div>
 
 <!--Styling for our force directed graph generated.-->
@@ -248,63 +309,6 @@
     d.fx = null;
     d.fy = null;
   }
-
-  // Add on click event for populate_button
-  $("#populate_button").click(function() {
-    // Make a get to populate endpoint to fetch results in data variable
-    $.get("/populate", function(data) {
-        // Get a list of courses from data.courses
-        var courses = data.courses;
-        // Insert an a tag for each course in courses into all divs with id course_names
-        $("[id=course_names]").each(function() {
-            $(this).empty();
-            for (var i = 0; i < courses.length; i++) {
-              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + courses[i] + "</a>");
-            }
-        });
-
-
-        // Get a list of instructors from data.instructors
-        var instructors = data.instructors;
-        // Insert an a tag for each instructor in instructors into all divs with id instructor_names
-        $("[id=instructor_names]").each(function() {
-            $(this).empty();
-            for (var i = 0; i < instructors.length; i++) {
-              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + instructors[i] + "</a>");
-            }
-        });
-        
-        // Get a list of fields from data.fields
-        var fields = data.fields;
-        // Insert an a tag for each field in fields into all divs with id field_names
-        $("[id=field_names]").each(function() {
-            $(this).empty();
-            for (var i = 0; i < fields.length; i++) {
-              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + fields[i] + "</a>");
-            }
-        });
-
-        // Get a list of locations from data.locations
-        var locations = data.locations;
-        // Insert an a tag for each location in locations into all divs with id location_names
-        $("[id=location_names]").each(function() {
-            $(this).empty();
-            for (var i = 0; i < locations.length; i++) {
-              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + locations[i] + "</a>");
-            }
-        });
-
-        // Get a list of Days from data.days
-        var days = data.days;
-        // Insert an a tag for each day in days into all divs with id day_names
-        $("[id=day_names]").each(function() {
-            $(this).empty();
-            for (var i = 0; i < days.length; i++) {
-              $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + days[i] + "</a>");
-            }
-        });
-    });
-  });
 
   function getFilters(row) {
     // Get the list of selected courses from the course_names div
@@ -372,7 +376,6 @@
     };
   }
 
-  // Add an on-click event for the search button
   $("#filter_button").click(function() {
     // For every child of the div with id filters_row_parent, call getFilters on it
     filters_list = [];
@@ -541,6 +544,64 @@
           });
 
   });
+
+  function populateInfo() {
+        // Make a get to populate endpoint to fetch results in data variable
+        $.get("/populate", function(data) {
+          // Get a list of courses from data.courses
+          var courses = data.courses;
+          // Insert an a tag for each course in courses into all divs with id course_names
+          $("[id=course_names]").each(function() {
+              $(this).empty();
+              for (var i = 0; i < courses.length; i++) {
+                $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + courses[i] + "</a>");
+              }
+          });
+
+
+          // Get a list of instructors from data.instructors
+          var instructors = data.instructors;
+          // Insert an a tag for each instructor in instructors into all divs with id instructor_names
+          $("[id=instructor_names]").each(function() {
+              $(this).empty();
+              for (var i = 0; i < instructors.length; i++) {
+                $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + instructors[i] + "</a>");
+              }
+          });
+          
+          // Get a list of fields from data.fields
+          var fields = data.fields;
+          // Insert an a tag for each field in fields into all divs with id field_names
+          $("[id=field_names]").each(function() {
+              $(this).empty();
+              for (var i = 0; i < fields.length; i++) {
+                $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + fields[i] + "</a>");
+              }
+          });
+
+          // Get a list of locations from data.locations
+          var locations = data.locations;
+          // Insert an a tag for each location in locations into all divs with id location_names
+          $("[id=location_names]").each(function() {
+              $(this).empty();
+              for (var i = 0; i < locations.length; i++) {
+                $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + locations[i] + "</a>");
+              }
+          });
+
+          // Get a list of Days from data.days
+          var days = data.days;
+          // Insert an a tag for each day in days into all divs with id day_names
+          $("[id=day_names]").each(function() {
+              $(this).empty();
+              for (var i = 0; i < days.length; i++) {
+                $(this).append("<a class='dropdown-item' href='#'><input type='checkbox' onClick='ts(this)'/>&nbsp;" + days[i] + "</a>");
+              }
+          });
+      });
+  }
+
+  populateInfo();
 
 </script>
 
