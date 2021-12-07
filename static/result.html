@@ -476,13 +476,15 @@
           $("svg").html("");
     var width = 1920
     var height = 1200
+    
+    var nu_courses = $("#filters_row_parent").children().length;
 
     // Get first 10 elements of data.nodes
     console.log("Set number is " + set_number.toString());
     console.log(Data);
 
-    var nodes = Data.nodes.slice(40* set_number + 0, 40*set_number + 40);
-    var links = Data.links.slice(30*set_number + 0, 30*set_number + 30);
+    var nodes = Data.nodes.slice(nu_courses*10* set_number, nu_courses*10*set_number + nu_courses*10);
+    var links = Data.links.slice((nu_courses-1)*10*set_number, (nu_courses-1)*10*set_number + (nu_courses-1)*10);
 
     console.log(nodes);
     console.log(links);
