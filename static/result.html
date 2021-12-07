@@ -272,6 +272,11 @@
   <button type="button" class="btn btn-success btn-lg m-5" id = "filter_button" style="background-color: #64CCC9; color: #003057;">Filter</button>
 </div>
 
+<div class="container">
+  <button type="button" class="btn btn-primary btn-sm" id="prev">Previous</button>
+  <button type="button" class="btn btn-primary btn-sm" id="next">Next</button>
+</div>
+
 <!--Styling for our force directed graph generated.-->
 <style>
   .links line {
@@ -286,11 +291,26 @@
 </style>
 
 <!-- Create a div where the graph will take place -->
-<svg> </svg>
+<div class="container text-center">
+  <svg> </svg>
+</div>
+
+<span id="positivedetails">POSITIVE</span>
+<span id="negativedetails">NEGATIVE</span>
+
 
 <!--Importing D3 libraries and setting up the Force Directed Graph.-->
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
+  // Declare an empty JS object
+  var Data = {};
+  var set_number = 0;
+  var num_sets = 0;
+
+
+  // Hide elements with id "positivedetails" and "negativedetails"
+  $("#positivedetails").hide();
+  $("#negativedetails").hide();
 
   function getFilters(row) {
     // Get the list of selected courses from the course_names div
@@ -430,16 +450,42 @@
         "filters_list": JSON.stringify(filters_list),
         "preferences_list": JSON.stringify(preferences)
     }, function(data) {
-      console.log(data);
-      // Using jquery, clear the contents of the svg element
-      $("#svg").html("");
+       // Copy data object into Data object
+      Data = data; 
+      var num_courses = $("#filters_row_parent").children().length;
+      num_sets = Data.nodes.length / num_courses;
+
+      num_sets = Math.ceil(num_sets / 10.0);
+
+      console.log(num_sets);
+
+      // Show elements with id "positivedetails" and "negativedetails"
+      $("#positivedetails").show();
+      $("#negativedetails").show();
+
+      set_number = 0;
+      
+      displayResults();
+
+          });
+
+  });
+
+  function displayResults() {
+          // Using jquery, clear the contents of the svg element
+          $("svg").html("");
     var width = 1920
     var height = 1200
 
     // Get first 10 elements of data.nodes
+    console.log("Set number is " + set_number.toString());
+    console.log(Data);
 
-    var nodes = data.nodes.slice(0, 40);
-    var links = data.links.slice(0, 30);
+    var nodes = Data.nodes.slice(40* set_number + 0, 40*set_number + 40);
+    var links = Data.links.slice(30*set_number + 0, 30*set_number + 30);
+
+    console.log(nodes);
+    console.log(links);
 
     // End of Variable declarations
 
@@ -480,7 +526,7 @@
         .attr("stroke", "rgba(255,255,255, 1.0)")
 
     var nodeElements = svg.append("g")
-      .attr("class", "nodes")
+      .attr("class", "nodes ")
       .selectAll("circle")
       .data(nodes)
       .enter().append("circle")
@@ -489,8 +535,15 @@
         .attr("stroke", "black")
         .attr("stroke-width", "1")
         .call(dragDrop)
-        .on("click", function(selectedNode) {
-            location.href = "http://localhost:5000/switches/" + selectedNode.label
+        .on("mouseover", function(selectedNode) {
+            // Using jquery, put contents as seletedNode.matchedpreferences to div with id details
+            $("#positivedetails").html("POSITIVE<br>" + selectedNode.positivepreferences);
+            $("#negativedetails").html("NEGATIVE<br>" + selectedNode.negativepreferences);
+        })
+        .on("mouseout", function(selectedNode) {
+            // Using jquery, clear the contents of the div with id details
+            $("#positivedetails").html("POSITIVE<br>");
+            $("#negativedetails").html("NEGATIVE<br>");
         })
 
     var textElements = svg.append("g")
@@ -498,22 +551,30 @@
       .selectAll("text")
       .data(nodes)
       .enter().append("text")
-        .text(function (node) { return node.id })
+        .text(function (node) {
+          var num_rows = $("#filters_row_parent").children().length;
+          if(node.position % num_rows == 0) {
+            // convert node.score to a string
+            return "SCORE:" + node.score.toString() + " " + node.id.substring(node.id.indexOf(" ") + 1)
+          }
+            return node.id.substring(node.id.indexOf(" ") + 1)
+
+        })
         .style("fill", "black")
-        .on("mouseover", function(node) {
-          d3.select(this)
-          .attr("font-size", "20")
-          .style("fill", "orange")
-          .style("text-decoration","underline")
-          .text(node.matchedpreferences)
-        })
-        .on("mouseout", function(node) {
-          d3.select(this)
-          .attr("font-size", "15")
-          .style("fill", "black")
-          .style("text-decoration","")
-          .text(function (node) { return node.id })
-        })
+        // .on("mouseover", function(node) {
+        //   d3.select(this)
+        //   .attr("font-size", "20")
+        //   .style("fill", "orange")
+        //   .style("text-decoration","underline")
+        //   .text(node.matchedpreferences)
+        // })
+        // .on("mouseout", function(node) {
+        //   d3.select(this)
+        //   .attr("font-size", "15")
+        //   .style("fill", "black")
+        //   .style("text-decoration","")
+        //   .text(function (node) { return node.id.substring(node.id.indexOf(" ") + 1) })
+        // })
         .attr("font-size", 15)
         .attr("dx", -20)
         .attr("dy", -20)
@@ -535,11 +596,7 @@
     })
 
     simulation.force("link").links(links)
-
-          });
-
-  });
-
+  }
   function populateInfo() {
         // Make a get to populate endpoint to fetch results in data variable
         $.get("/populate", function(data) {
@@ -598,15 +655,29 @@
 
   populateInfo();
 
+  $("#prev").click(function() {
+    if(set_number > 0) {
+      set_number -= 1;
+    } else {
+      set_number = 0;
+    }
+
+    displayResults();
+  });
+
+  $("#next").click(function() {
+    if(set_number < num_sets - 1) {
+      set_number += 1;
+    } else {
+      set_number = num_sets - 1;
+    }
+
+    displayResults();
+  });
+
+
 </script>
 
-<!--Helps retrive the next and previous batch of results.-->
-<div class="container">
-  <ul class="pagination justify-content-end">
-    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-  </ul>
-</div>
 
 </body>
 </html>

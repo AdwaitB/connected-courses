@@ -28,6 +28,62 @@ body {
     padding: 2%;
 }
 
+#filters_add_course {
+    position: absolute;
+    left: 200px;
+    top: 300px;
+}
+
+#filters_remove_course {
+    position: absolute;
+    left: 200px;
+    top: 360px;
+}
+
+#filters_reset_everything {
+    position: absolute;
+    left: 200px;
+    top: 420px;
+}
+
+/* #preferences_reset_everything {
+    position: absolute;
+    left: 200px;
+    top: 650px;
+} */
+
 .jumbotron {
     color: #003057;
+}
+
+#positivedetails {
+    position: fixed;
+    top: 500px;
+    left: 50px;
+    width: 200px;
+    word-wrap:break-word;
+    font-family: cursive;
+    color: green;
+}
+
+#negativedetails {
+    position: fixed;
+    top: 500px;
+    left: 270px;
+    width: 200px;
+    word-wrap:break-word;
+    font-family: cursive;
+    color: red;
+}
+
+#next {
+    position: fixed;
+    right: 0;
+    bottom: 100px;
+}
+
+#prev {
+    position: fixed;
+    right: 100px;
+    bottom: 100px;
 }

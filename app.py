@@ -207,16 +207,28 @@ def filter():
             matched_preferences = []
             for preference in result.matched_preferences:
                 if course_name in preference:
-                    matched_preferences.append(preference)
-            matched_preferences.sort()
-            # Create a string from matched_preferences
-            matched_preferences_string = ""
+                    # add the matched preference to the list by removing the course name
+                    matched_preferences.append(preference.replace("(" + course_name + ")", "") + "<br>")
+            positive_preferences = []
+            negative_preferences = []
             for preference in matched_preferences:
-                matched_preferences_string += preference + " "
-            if xiteration % n_courses == 0:
-                nodes.append({"matchedpreferences":matched_preferences_string, "x": 50 + xiteration * 300 , "y": 50 + yiteration * 100, "id":"Score:" + str(result.score) + " " + str(count) + " " + result.info[course]['name'], "name": result.info[course]['name'], "professor": result.info[course]['instructor'], "field": result.info[course]['field'], "location": result.info[course]['location'], "days": result.info[course]['day'], "score": result.score})
-            else:
-                nodes.append({"matchedpreferences":matched_preferences_string, "x": 50 + xiteration * 300 , "y": 50 + yiteration * 100, "id":str(count) + " " + result.info[course]['name'], "name": result.info[course]['name'], "professor": result.info[course]['instructor'], "field": result.info[course]['field'], "location": result.info[course]['location'], "days": result.info[course]['day'], "score": result.score})
+                if "POSITIVE" in preference:
+                    positive_preferences.append(preference.replace("POSITIVE", ""))
+                else:
+                    negative_preferences.append(preference.replace("NEGATIVE", ""))
+            
+            # Create a string from matched_preferences
+            positive_matched_preferences_string = ""
+            for preference in positive_preferences:
+                positive_matched_preferences_string += preference
+
+            negative_matched_preferences_string = ""
+            for preference in negative_preferences:
+                negative_matched_preferences_string += preference
+
+
+            nodes.append({"position" : xiteration % n_courses, "positivepreferences":positive_matched_preferences_string, "negativepreferences":negative_matched_preferences_string, "x": 50 + xiteration * 300 , "y": 50 + (yiteration % 10) * 100, "id":str(count) + " " + result.info[course]['name'], "name": result.info[course]['name'], "professor": result.info[course]['instructor'], "field": result.info[course]['field'], "location": result.info[course]['location'], "days": result.info[course]['day'], "score": result.score})
+
             xiteration += 1
 
         for i in range(prev, len(nodes) - 1):
