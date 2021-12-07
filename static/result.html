@@ -292,16 +292,48 @@
 
 <!-- Create a div where the graph will take place -->
 <div class="container text-center">
+  <span id="pagedetails"></span>
   <svg> </svg>
 </div>
 
 <span id="positivedetails">POSITIVE</span>
 <span id="negativedetails">NEGATIVE</span>
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+
+  </div>
+
+</div>
+
 
 <!--Importing D3 libraries and setting up the Force Directed Graph.-->
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
+
+  // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
   // Declare an empty JS object
   var Data = {};
   var set_number = 0;
@@ -311,6 +343,8 @@
   // Hide elements with id "positivedetails" and "negativedetails"
   $("#positivedetails").hide();
   $("#negativedetails").hide();
+  $("#prev").hide();
+  $("#next").hide();
 
   function getFilters(row) {
     // Get the list of selected courses from the course_names div
@@ -457,13 +491,18 @@
 
       num_sets = Math.ceil(num_sets / 10.0);
 
+      if(num_sets > 1) {
+        // Use jquery to set text of span with id pagedetails to "abc"
+        $("#pagedetails").text("1 / " + num_sets);
+      }
+
       console.log(num_sets);
 
-      // Show elements with id "positivedetails" and "negativedetails"
-      $("#positivedetails").show();
-      $("#negativedetails").show();
 
       set_number = 0;
+
+      $("#prev").show();
+      $("#next").show();
       
       displayResults();
 
@@ -539,14 +578,36 @@
         .call(dragDrop)
         .on("mouseover", function(selectedNode) {
             // Using jquery, put contents as seletedNode.matchedpreferences to div with id details
+            $("#positivedetails").show();
+            $("#negativedetails").show();
             $("#positivedetails").html("POSITIVE<br>" + selectedNode.positivepreferences);
             $("#negativedetails").html("NEGATIVE<br>" + selectedNode.negativepreferences);
         })
         .on("mouseout", function(selectedNode) {
-            // Using jquery, clear the contents of the div with id details
+            // Using jquery, clear the contents of the div with id details            
             $("#positivedetails").html("POSITIVE<br>");
             $("#negativedetails").html("NEGATIVE<br>");
+
+            $("#positivedetails").hide();
+            $("#negativedetails").hide();
         })
+        .on("click", function(selectedNode) {
+            
+            // Append a p tag with contents to the div with class "modal-content"
+            // Construct a string out of selectedNode.info object
+            var info = "";
+            for (var key in selectedNode.info) {
+                // Capitalize first letter of key
+                var capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+                info += capitalizedKey + ": " + selectedNode.info[key] + "<br>";
+            }
+            // Remove all p elements from the div with class "modal-content"
+            $(".modal-content").find("p").remove();
+            $(".modal-content").append("<p>" + info + "</p>");
+
+            // Set display of div with id myModal to block
+            $("#myModal").show();
+        });
 
     var textElements = svg.append("g")
       .attr("class", "texts")
@@ -658,22 +719,20 @@
   populateInfo();
 
   $("#prev").click(function() {
-    if(set_number > 0) {
-      set_number -= 1;
-    } else {
-      set_number = 0;
+    set_number--;
+    if(set_number < 0) {
+      set_number = num_sets - 1;
     }
-
+    $("#pagedetails").text((set_number+1).toString() + " / " + num_sets);
     displayResults();
   });
 
   $("#next").click(function() {
-    if(set_number < num_sets - 1) {
-      set_number += 1;
-    } else {
-      set_number = num_sets - 1;
+    set_number++;
+    if(set_number >= num_sets) {
+      set_number = 0;
     }
-
+    $("#pagedetails").text((set_number+1).toString() + " / " + num_sets);
     displayResults();
   });
 

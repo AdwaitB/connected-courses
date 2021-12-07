@@ -226,8 +226,19 @@ def filter():
             for preference in negative_preferences:
                 negative_matched_preferences_string += preference
 
+            course_info = {}
+            course_info['name'] = result.info[course]['name']
+            course_info['CRM'] = result.info[course]['CRM']
+            course_info['department'] = result.info[course]['department']
+            course_info['coursecode'] = result.info[course]['coursecode']
+            course_info['section'] = result.info[course]['section']
+            course_info['credits'] = result.info[course]['credits']
+            course_info['time'] = result.info[course]['time']
+            course_info['days'] = result.info[course]['days']
+            course_info['location'] = result.info[course]['location']
+            course_info['instructor'] = result.info[course]['instructor']
 
-            nodes.append({"position" : xiteration % n_courses, "positivepreferences":positive_matched_preferences_string, "negativepreferences":negative_matched_preferences_string, "x": 50 + xiteration * 300 , "y": 50 + (yiteration % 10) * 100, "id":str(count) + " " + result.info[course]['name'], "name": result.info[course]['name'], "professor": result.info[course]['instructor'], "field": result.info[course]['field'], "location": result.info[course]['location'], "days": result.info[course]['day'], "score": result.score})
+            nodes.append({"position" : xiteration % n_courses, "positivepreferences":positive_matched_preferences_string, "negativepreferences":negative_matched_preferences_string, "x": 50 + xiteration * 300 , "y": 50 + (yiteration % 10) * 100, "id":str(count) + " " + result.info[course]['name'], "name": result.info[course]['name'], "professor": result.info[course]['instructor'], "field": result.info[course]['field'], "location": result.info[course]['location'], "days": result.info[course]['day'], "score": result.score, "info": course_info})
 
             xiteration += 1
 
