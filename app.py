@@ -162,6 +162,7 @@ def filter():
 
     # Create a QueryGenerator object
     query_generator = QueryGenerator(len(positive_filter_list), positive_filter_list, negative_filter_list)
+    print(query_generator.generate_query())
 
     preferences_object = Preferences(preferences['positive_courses_preferences'], preferences['negative_courses_preferences'], \
     preferences['positive_instructors_preferences'], preferences['negative_instructors_preferences'], \

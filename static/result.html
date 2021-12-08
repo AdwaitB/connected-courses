@@ -182,6 +182,10 @@
       $(this).find("button").text("+");
       $(this).find("input").prop("checked", false);
     });
+    $("#prev").hide();
+    $("#next").hide();
+
+
   });
 </script>
 
@@ -484,7 +488,15 @@ window.onclick = function(event) {
         "filters_list": JSON.stringify(filters_list),
         "preferences_list": JSON.stringify(preferences)
     }, function(data) {
-       // Copy data object into Data object
+       if(data.nodes.length == 0) {
+          // Set text of element with id filter_button to "No results"
+          $("#filter_button").text("No results, try again");
+           return;
+       } else {
+          // Set text of element with id filter_button to "Filter"
+          $("#filter_button").text("Filter");
+       }
+
       Data = data; 
       var num_courses = $("#filters_row_parent").children().length;
       num_sets = Data.nodes.length / num_courses;
