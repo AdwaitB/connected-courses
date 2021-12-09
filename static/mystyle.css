@@ -62,7 +62,7 @@ body {
     left: 50px;
     width: 200px;
     word-wrap:break-word;
-    font-family: cursive;
+    font-family: serif;
     color: green;
 }
 
@@ -72,7 +72,7 @@ body {
     left: 270px;
     width: 200px;
     word-wrap:break-word;
-    font-family: cursive;
+    font-family: serif;
     color: red;
 }
 

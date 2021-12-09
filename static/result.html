@@ -592,13 +592,13 @@ window.onclick = function(event) {
             // Using jquery, put contents as seletedNode.matchedpreferences to div with id details
             $("#positivedetails").show();
             $("#negativedetails").show();
-            $("#positivedetails").html("POSITIVE<br>" + selectedNode.positivepreferences);
-            $("#negativedetails").html("NEGATIVE<br>" + selectedNode.negativepreferences);
+            $("#positivedetails").html("<strong><u>POSITIVE</u></strong><br>" + selectedNode.positivepreferences);
+            $("#negativedetails").html("<strong><u>NEGATIVE</u></strong><br>" + selectedNode.negativepreferences);
         })
         .on("mouseout", function(selectedNode) {
             // Using jquery, clear the contents of the div with id details            
-            $("#positivedetails").html("POSITIVE<br>");
-            $("#negativedetails").html("NEGATIVE<br>");
+            $("#positivedetails").html("<strong><u>POSITIVE</u></strong><br>");
+            $("#negativedetails").html("<strong><u>NEGATIVE</u></strong><br>");
 
             $("#positivedetails").hide();
             $("#negativedetails").hide();
